@@ -1,5 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { IFile, IFolder } from 'src/app/models/filesystem.model';
+import { ModalService } from 'src/app/services/modal.service';
 
 @Component({
     selector: 'app-folder',
@@ -11,10 +12,16 @@ export class FolderComponent implements OnInit {
     @Input() name: string;
     @Input() models: IFile[];
     @Input() childFolders: IFolder[];
+    @Input() selectedFileId: number | null;
+    @Input() selectFile: (id: number | null) => void
+    @Input() isRevealed = false
+    @Input() isMainFolder = false
 
-    isRevealed = false
-
-    constructor() { }
+    constructor(public modalService: ModalService) { }
 
     ngOnInit() { }
+
+    identify(index: number, item: any) {
+        return item.id
+    }
 }

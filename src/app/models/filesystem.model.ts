@@ -11,3 +11,39 @@ export interface IFolder {
     models: IFile[];
     childFolders: IFolder[];
 }
+
+export type ICreateFolderResponse = IFolder
+export interface ICreateFolderRequest {
+    parentFolderId: number;
+    name: string;
+}
+
+export type ICreateFileResponse = IFile
+export interface ICreateFileRequest {
+    parentFolderId: number;
+    name: string;
+}
+
+export type IRemoveFolderResponse = number
+export interface IRemoveFolderRequest {
+    id: number;
+    cascade: boolean;
+}
+
+export type IRemoveFileResponse = number
+export interface IRemoveFileRequest {
+    id: number;
+}
+
+
+export type IRenameFileResponse = IFile
+export interface IRenameFileRequest {
+    id: number;
+    name: string;
+}
+
+export type IRenameFolderResponse = IFolder
+export interface IRenameFolderRequest {
+    id: number;
+    name: string;
+}

@@ -1,1 +1,10 @@
 <router-outlet></router-outlet>
+
+<ng-container *ngIf="modalService.modal$ | async as modal">
+  <app-modal *ngIf="modal.isShown === true">
+    <app-create-file *ngIf="modal.type === 'create-file'"></app-create-file>
+    <app-create-folder *ngIf="modal.type === 'create-folder'"></app-create-folder>
+    <app-edit-folder *ngIf="modal.type === 'edit-folder'"></app-edit-folder>
+    <app-edit-file *ngIf="modal.type === 'edit-file'"></app-edit-file>
+  </app-modal>
+</ng-container>
