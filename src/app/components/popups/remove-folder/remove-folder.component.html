@@ -1,0 +1,28 @@
+<div class="p-2">
+  <div class="text-xl" mat-dialog-title>
+    Вы уверены что хотите удалить папку?
+  </div>
+  <div
+    class="flex flex-col justify-end items-center gap-2"
+    mat-dialog-actions
+    *ngIf="isFolderEmpty === false"
+  >
+    <button mat-button mat-dialog-close>Отмена</button>
+    <button type="submit" mat-button color="warn" (click)="removeFolderCascade()">
+      Удалить папку и вложенные элементы
+    </button>
+    <button type="submit" mat-button color="warn" (click)="removeFolder()">
+      Удалить папку, вложенные элементы переместить на уровень выше
+    </button>
+  </div>
+  <div
+    class="flex justify-end items-center gap-2"
+    mat-dialog-actions
+    *ngIf="isFolderEmpty === true"
+  >
+    <button mat-button mat-dialog-close>Отмена</button>
+    <button type="submit" mat-button color="warn" (click)="removeFolder()">
+      Удалить папку
+    </button>
+  </div>
+</div>

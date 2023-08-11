@@ -1,17 +1,20 @@
-import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
-
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { CreateFileComponent } from 'src/app/components/popups/create-file/create-file.component';
 
 @Component({
-    selector: "scenario-page",
-    templateUrl: "./scenario-page.component.html"
+  selector: 'scenario-page',
+  templateUrl: './scenario-page.component.html',
 })
 export class ScenarioPageComponent implements OnInit {
-    constructor(private route: ActivatedRoute) { }
+  scenarioId: number | undefined;
+  test = CreateFileComponent
 
-    scenarioId: number | undefined
+  constructor(private route: ActivatedRoute) {}
 
-    ngOnInit(): void {
-        this.route.params.subscribe(params => this.scenarioId = +params['scenarioId'])
-    }
+  ngOnInit(): void {
+    this.route.params.subscribe(
+      (params) => (this.scenarioId = +params['scenarioId'])
+    );
+  }
 }

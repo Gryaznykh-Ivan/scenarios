@@ -1,6 +1,7 @@
 <div
   class="group flex items-center gap-2 p-0.5 rounded hover:bg-gray-100 cursor-pointer"
-  (click)="isRevealed = !isRevealed">
+  (click)="isRevealed = !isRevealed"
+>
   <div>
     <svg
       *ngIf="isRevealed === false"
@@ -38,10 +39,9 @@
   <div class="flex-1">{{ name }}</div>
   <div
     class="group-hover:flex items-center gap-2 hidden"
-    (click)="$event.stopPropagation()">
-    <div
-      class="hover:bg-gray-200 rounded"
-      *ngIf="isMainFolder === false">
+    (click)="$event.stopPropagation()"
+  >
+    <div class="hover:bg-gray-200 rounded" *ngIf="isMainFolder === false" (click)="renameFolder()">
       <svg
         width="24"
         height="24"
@@ -58,7 +58,7 @@
         />
       </svg>
     </div>
-    <div class="hover:bg-gray-200 rounded">
+    <div class="hover:bg-gray-200 rounded" (click)="createFolder()">
       <svg
         width="24"
         height="24"
@@ -75,9 +75,7 @@
         />
       </svg>
     </div>
-    <div
-      class="hover:bg-gray-200 rounded"
-      (click)="openModal()">
+    <div class="hover:bg-gray-200 rounded" (click)="createFile()">
       <svg
         width="24"
         height="24"
@@ -94,9 +92,7 @@
         />
       </svg>
     </div>
-    <div
-      class="hover:bg-gray-200 rounded"
-      *ngIf="isMainFolder === false">
+    <div class="hover:bg-gray-200 rounded" *ngIf="isMainFolder === false" (click)="removeFolder()">
       <svg
         width="24"
         height="24"
@@ -115,22 +111,21 @@
     </div>
   </div>
 </div>
-<div
-  *ngIf="isRevealed === true"
-  class="ml-5">
+<div *ngIf="isRevealed === true" class="ml-5">
   <app-folder
-    *ngFor="let folder of childFolders; trackBy:identify"
+    *ngFor="let folder of childFolders; trackBy: identify"
     [id]="folder.id"
     [name]="folder.name"
     [models]="folder.models"
     [childFolders]="folder.childFolders"
     [selectedFileId]="selectedFileId"
-    [selectFile]="selectFile">
+    [selectFile]="selectFile"
+  >
   </app-folder>
   <app-file
-    *ngFor="let file of models; trackBy:identify"
+    *ngFor="let file of models; trackBy: identify"
     [id]="file.id"
     [name]="file.name"
-    [selectedFileId]="selectedFileId"
-    [selectFile]="selectFile"></app-file>
+    [selectFile]="selectFile"
+  ></app-file>
 </div>

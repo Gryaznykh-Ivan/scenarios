@@ -1,4 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { RenameFileComponent } from '../../popups/rename-file/rename-file.component';
+import { ConfirmComponent } from '../../popups/confirm/confirm.component';
+import { FilesystemService } from 'src/app/services/filesystem.service';
 
 @Component({
     selector: 'app-file',
@@ -8,14 +12,40 @@ import { Component, Input, OnInit } from '@angular/core';
 export class FileComponent implements OnInit {
     @Input() id: number;
     @Input() name: string;
-    @Input() selectedFileId: number | null;
-    @Input() selectFile: (id: number | null) => void
+    @Input() selectFile: (id: number) => void
 
-    constructor() { }
+    constructor(private dialog: MatDialog, private filesystemService: FilesystemService) { }
 
     ngOnInit() { }
-
+    
     identify(index: number, item: any) {
         return item.id
+    }
+
+    renameFile() {
+        this.dialog.open(RenameFileComponent, {
+            width: "100%",
+            maxWidth: "500px",
+            data: { id: this.id, name: this.name }
+        })
+    }
+
+    removeFile(){
+        const dialogRef = this.dialog.open(ConfirmComponent, {
+            width: "100%",
+            maxWidth: "500px",
+            data: {
+                title: "Вы уверены?",
+                message: "Модель будет удалена",
+                YES: "Да",
+                NO: "Нет"
+            }
+        })
+
+        dialogRef.afterClosed().subscribe(result => {
+            if (result !== true) return
+
+            this.filesystemService.removeFile({ id: this.id }).subscribe()
+        })
     }
 }

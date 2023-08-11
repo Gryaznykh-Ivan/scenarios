@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http'
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -12,14 +12,23 @@ import { ScenarioPageComponent } from './pages/scenario-page/scenario-page.compo
 import { SelectModelPageComponent } from './pages/select-model-page/select-model-page.component';
 import { CreateFileComponent } from './components/popups/create-file/create-file.component';
 import { CreateFolderComponent } from './components/popups/create-folder/create-folder.component';
-import { EditFolderComponent } from './components/popups/edit-folder/edit-folder.component';
-import { EditFileComponent } from './components/popups/edit-file/edit-file.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatDialogModule } from '@angular/material/dialog'
-import { MatFormFieldModule } from '@angular/material/form-field'
-import { MatInputModule } from '@angular/material/input'
-import { MatButtonModule } from '@angular/material/button'
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatTabsModule } from '@angular/material/tabs';
+import { RenameFileComponent } from './components/popups/rename-file/rename-file.component';
+import { RenameFolderComponent } from './components/popups/rename-folder/rename-folder.component';
+import { ConfirmComponent } from './components/popups/confirm/confirm.component';
+import { RemoveFolderComponent } from './components/popups/remove-folder/remove-folder.component';
+import {
+  CdkDragDrop,
+  CdkDrag,
+  CdkDropList,
+  moveItemInArray,
+} from '@angular/cdk/drag-drop';
 
 @NgModule({
   declarations: [
@@ -32,8 +41,10 @@ import { MatButtonModule } from '@angular/material/button'
     FileComponent,
     CreateFileComponent,
     CreateFolderComponent,
-    EditFolderComponent,
-    EditFileComponent
+    RenameFileComponent,
+    RenameFolderComponent,
+    ConfirmComponent,
+    RemoveFolderComponent,
   ],
   imports: [
     BrowserModule,
@@ -45,9 +56,10 @@ import { MatButtonModule } from '@angular/material/button'
     MatDialogModule,
     MatFormFieldModule,
     MatInputModule,
-    MatButtonModule
+    MatButtonModule,
+    MatTabsModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

@@ -1,64 +1,49 @@
-<div class="text-lg font-medium">Выбор модели</div>
-<div class="mt-2">
-  <div class="border-[1px] rounded-md p-0.5 max-h-[500px] overflow-y-auto">
-    <app-folder
-      *ngIf="folder$ | async as folder"
-      [id]="folder.id"
-      [name]="folder.name"
-      [childFolders]="folder.childFolders"
-      [models]="folder.models"
-      [selectedFileId]="selectedFileId"
-      [selectFile]="selectFile"
-      [isRevealed]="true"
-      [isMainFolder]="true">
-    </app-folder>
-    <div
-      *ngIf="isLoading"
-      class="flex items-center justify-center py-4">
-      <svg
-      class="animate-spin"
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
+
+  <div class="text-lg font-medium mb-2">Выбор модели</div>
+  <div class="">
+    <div class="border-[1px] rounded-md max-h-[500px] overflow-y-auto">
+      <app-folder
+        *ngIf="folder$ | async as folder"
+        [id]="folder.id"
+        [name]="folder.name"
+        [childFolders]="folder.childFolders"
+        [models]="folder.models"
+        [selectFile]="selectFile"
+        [isRevealed]="true"
+        [isMainFolder]="true"
       >
-        <path
-          d="M4 3.99999V8.99999H4.582M4.582 8.99999C5.24585 7.35812 6.43568 5.9829 7.96503 5.08985C9.49438 4.1968 11.2768 3.8364 13.033 4.06513C14.7891 4.29386 16.4198 5.09878 17.6694 6.35377C18.919 7.60875 19.7168 9.24285 19.938 11M4.582 8.99999H9M20 20V15H19.419M19.419 15C18.7542 16.6409 17.564 18.015 16.0348 18.9073C14.5056 19.7995 12.7237 20.1595 10.9681 19.9309C9.21246 19.7022 7.5822 18.8979 6.33253 17.6437C5.08287 16.3896 4.28435 14.7564 4.062 13M19.419 15H15"
-          stroke="black"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        />
-      </svg>
-    </div>
-    <div *ngIf="errorService.error$ | async as message">
-      <div class>{{ message }}</div>
-      <div class="flex justify-center items-center">
-        <button
-          class="bg-gray-200 py-2 px-4 rounded-md cursor-pointer"
-          (click)="getFolder()">
-          Обновить
-        </button>
+      </app-folder>
+      <div *ngIf="isLoading" class="flex items-center justify-center py-4">
+        <svg
+          class="animate-spin"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M4 3.99999V8.99999H4.582M4.582 8.99999C5.24585 7.35812 6.43568 5.9829 7.96503 5.08985C9.49438 4.1968 11.2768 3.8364 13.033 4.06513C14.7891 4.29386 16.4198 5.09878 17.6694 6.35377C18.919 7.60875 19.7168 9.24285 19.938 11M4.582 8.99999H9M20 20V15H19.419M19.419 15C18.7542 16.6409 17.564 18.015 16.0348 18.9073C14.5056 19.7995 12.7237 20.1595 10.9681 19.9309C9.21246 19.7022 7.5822 18.8979 6.33253 17.6437C5.08287 16.3896 4.28435 14.7564 4.062 13M19.419 15H15"
+            stroke="black"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </div>
+      <div
+        class="py-4 space-y-4"
+        *ngIf="errorService.error$ | async as message"
+      >
+        <div class="text-center">Не удалось получить данные от сервера</div>
+        <div class="flex justify-center items-center">
+          <button
+            class="bg-gray-200 py-2 px-4 rounded-md cursor-pointer"
+            (click)="getFolder()"
+          >
+            Обновить
+          </button>
+        </div>
       </div>
     </div>
   </div>
-</div>
-<div class="flex items-center justify-end mt-2 gap-2">
-  <button
-    *ngIf="selectedFileId"
-    class="text-md rounded-md py-2 px-4 bg-gray-200 text-gray-600"
-    (click)="selectFile(null)">
-    Отмена
-  </button>
-  <a
-    class="text-md rounded-md py-2 px-4 bg-gray-200 text-gray-600"
-    [ngClass]="{
-      'bg-green-700 text-white': selectedFileId !== null,
-      'bg-gray-200': selectedFileId === null
-    }"
-    [href]="'/scenario/' + selectedFileId"
-    [ngStyle]="{ pointerEvents: selectedFileId === null ? 'none' : 'auto' }">
-    Открыть
-  </a>
-</div>
