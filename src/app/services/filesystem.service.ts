@@ -24,7 +24,7 @@ import {
 
 @Injectable({ providedIn: 'root' })
 export class FilesystemService {
-    private refetch$ = new BehaviorSubject(null);
+    private refetch$ = new BehaviorSubject(true);
 
     constructor(private http: HttpClient) { }
 
@@ -65,7 +65,7 @@ export class FilesystemService {
                     },
                 }),
             }
-        ).pipe(tap(() => this.refetch$.next(null)));
+        ).pipe(tap(() => this.refetch$.next(true)));
     }
 
     createFile(data: ICreateFileRequest): Observable<ICreateFileResponse> {
@@ -81,9 +81,7 @@ export class FilesystemService {
                     },
                 }),
             }
-        ).pipe(
-            tap(() => this.refetch$.next(null))
-        );
+        ).pipe(tap(() => this.refetch$.next(true)));
     }
 
     removeFile(data: IRemoveFileRequest): Observable<IRemoveFileResponse> {
@@ -96,7 +94,7 @@ export class FilesystemService {
                     },
                 }),
             }
-        );
+        ).pipe(tap(() => this.refetch$.next(true)));
     }
 
     removeFolder(data: IRemoveFolderRequest): Observable<IRemoveFolderResponse> {
@@ -110,7 +108,7 @@ export class FilesystemService {
                     },
                 }),
             }
-        );
+        ).pipe(tap(() => this.refetch$.next(true)));
     }
 
     renameFolder(data: IRenameFolderRequest): Observable<IRenameFolderResponse> {
@@ -126,7 +124,7 @@ export class FilesystemService {
                     },
                 }),
             }
-        );
+        ).pipe(tap(() => this.refetch$.next(true)));
     }
 
     renameFile(data: IRenameFileRequest): Observable<IRenameFileResponse> {
@@ -142,6 +140,6 @@ export class FilesystemService {
                     },
                 }),
             }
-        );
+        ).pipe(tap(() => this.refetch$.next(true)));
     }
 }

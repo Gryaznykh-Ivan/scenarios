@@ -1,0 +1,35 @@
+<form
+  class="max-w-[560px] w-full"
+  [formGroup]="form"
+  (ngSubmit)="submit()">
+  <div
+    class="text-xl"
+    mat-dialog-title>
+    Введите название файла
+  </div>
+  <div class="px-4 py-2">
+    <mat-form-field class="w-full">
+      <mat-label>Название файла</mat-label>
+      <input
+        matInput
+        placeholder="Введите название файла"
+        formControlName="name">
+    </mat-form-field>
+  </div>
+
+  <div
+    class="flex justify-end items-center gap-2"
+    mat-dialog-actions>
+    <button
+      mat-button
+      mat-dialog-close>
+      Отмена
+    </button>
+    <button
+      type="submit"
+      mat-button
+      color="primary">
+      Сохранить
+    </button>
+  </div>
+</form>

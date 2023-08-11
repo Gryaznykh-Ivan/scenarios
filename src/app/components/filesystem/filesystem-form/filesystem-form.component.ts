@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { catchError, delay, finalize, Observable, of, switchMap, tap, throwError } from 'rxjs';
 import { IFolder } from 'src/app/models/filesystem.model';

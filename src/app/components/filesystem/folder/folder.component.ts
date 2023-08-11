@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { IFile, IFolder } from 'src/app/models/filesystem.model';
-import { ModalService } from 'src/app/services/modal.service';
+import { CreateFileComponent } from '../../popups/create-file/create-file.component';
 
 @Component({
     selector: 'app-folder',
@@ -17,11 +18,28 @@ export class FolderComponent implements OnInit {
     @Input() isRevealed = false
     @Input() isMainFolder = false
 
-    constructor(public modalService: ModalService) { }
+    constructor(
+        private dialog: MatDialog
+    ) { }
 
     ngOnInit() { }
 
     identify(index: number, item: any) {
         return item.id
+    }
+
+    openModal() {
+        const dialogRef = this.dialog.open(CreateFileComponent, {
+            width: "100%",
+            maxWidth: "500px",
+            data: { parentFolderId: this.id }
+        })
+        dialogRef.afterClosed().subscribe({
+            next: (values) => {
+                if (values) {
+                    console.log(values)
+                }
+            },
+        });
     }
 }

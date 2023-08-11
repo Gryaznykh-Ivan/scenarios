@@ -1,9 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormControlName, FormGroup, Validators } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { IModal } from 'src/app/models/modal.model';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FilesystemService } from 'src/app/services/filesystem.service';
-import { ModalService } from 'src/app/services/modal.service';
 
 @Component({
   selector: 'app-create-file',
@@ -11,15 +9,12 @@ import { ModalService } from 'src/app/services/modal.service';
 })
 export class CreateFileComponent implements OnInit {
   constructor(
-    public modalService: ModalService,
-    public filesystem: FilesystemService
-  ) {}
-  
-  modal: IModal
+    public dialogRef: MatDialogRef<CreateFileComponent>,
+    public filesystem: FilesystemService,
+    @Inject(MAT_DIALOG_DATA) public data: any
+  ) { }
 
-  ngOnInit(): void {
-    this.modalService.modal$.subscribe(modal => this.modal = modal)
-  }
+  ngOnInit(): void { }
 
   form = new FormGroup({
     name: new FormControl<string>('', [
@@ -33,9 +28,12 @@ export class CreateFileComponent implements OnInit {
   }
 
   submit() {
+    if (this.form.valid === false) return
+    if (this.data.parentFolderId === undefined) return
+
     this.filesystem.createFile({
-      parentFolderId: this.modal.data.parentFolderId,
+      parentFolderId: this.data.parentFolderId,
       name: this.form.value.name as string
-    }).subscribe(() => this.modalService.close())
+    }).subscribe(() => this.dialogRef.close())
   }
 }
