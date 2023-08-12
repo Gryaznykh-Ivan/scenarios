@@ -1,5 +1,5 @@
 <div
-  class="flex items-end w-full bg-primary h-12 divide-x-[1px] divide-black/20"
+  class="flex items-end w-full bg-primary h-12 shadow-sm border-b-[1px] border-gray-200"
   cdkDropList
   cdkDropListOrientation="horizontal"
   (cdkDropListDropped)="tabService.rearrangeTabs($event)"
@@ -8,7 +8,7 @@
     *ngFor="let tab of tabService.tabs$ | async; index as i"
     class="w-full h-full flex items-center gap-2 max-w-[200px] pl-3 pr-2 cursor-pointer text-white bg-primary"
     [ngClass]="{
-      'bg-black/10': tab.isActive
+      'border-b-2 border-white': tab.isActive
     }"
     cdkDragLockAxis="x"
     (click)="tabService.selectTab(i)"
