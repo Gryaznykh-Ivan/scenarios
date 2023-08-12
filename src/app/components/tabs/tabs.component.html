@@ -1,0 +1,49 @@
+<div
+  class="flex items-end w-full bg-primary h-12 divide-x-[1px] divide-black/20"
+  cdkDropList
+  cdkDropListOrientation="horizontal"
+  (cdkDropListDropped)="tabService.rearrangeTabs($event)"
+>
+  <div
+    *ngFor="let tab of tabService.tabs$ | async; index as i"
+    class="w-full h-full flex items-center gap-2 max-w-[200px] pl-3 pr-2 cursor-pointer text-white bg-primary"
+    [ngClass]="{
+      'bg-black/10': tab.isActive
+    }"
+    cdkDragLockAxis="x"
+    (click)="tabService.selectTab(i)"
+    cdkDrag
+  >
+    <div
+      class="flex-1 text-md font-medium whitespace-nowrap overflow-ellipsis overflow-hidden"
+    >
+      {{ tab.title }}
+    </div>
+    <button
+      class="w-5 h-5 hover:bg-black/10 rounded-sm text-[20px]"
+      (click)="tabService.removeTab(i)"
+    >
+      &times;
+    </button>
+  </div>
+  <button
+    class="h-full flex justify-center items-center px-2 hover:bg-black/10"
+    (click)="tabService.createTab('TEST')"
+  >
+    <svg
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M12 6V12M12 12V18M12 12H18M12 12H6"
+        stroke="white"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+  </button>
+</div>

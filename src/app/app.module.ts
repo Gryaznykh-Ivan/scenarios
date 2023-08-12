@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FilesystemFormComponent } from './components/filesystem/filesystem-form/filesystem-form.component';
@@ -28,7 +27,9 @@ import {
   CdkDrag,
   CdkDropList,
   moveItemInArray,
+  DragDropModule,
 } from '@angular/cdk/drag-drop';
+import { TabsComponent } from './components/tabs/tabs.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import {
     RenameFolderComponent,
     ConfirmComponent,
     RemoveFolderComponent,
+    TabsComponent,
   ],
   imports: [
     BrowserModule,
@@ -58,6 +60,7 @@ import {
     MatInputModule,
     MatButtonModule,
     MatTabsModule,
+    DragDropModule
   ],
   providers: [],
   bootstrap: [AppComponent],
