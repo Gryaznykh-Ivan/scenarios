@@ -8,27 +8,36 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 })
 export class TabService {
   tabs$ = new BehaviorSubject<ITab[]>([
-    { title: 'test', isActive: true },
-    { title: 'test 1', isActive: false },
-    { title: 'test 2', isActive: false },
+    { title: 'Новая страница', isActive: true },
   ]);
 
   constructor() {}
 
-  createTab(title: string) {
+  get activeTab() {
+    return this.tabs$.getValue().find((c) => c.isActive === true);
+  }
+
+  createTab() {
     const tabs = this.tabs$.getValue();
-    if (tabs.length > 20) return
+    if (tabs.length > 20) return;
 
     this.tabs$.next([
       ...tabs.map((current) => ({ ...current, isActive: false })),
-      { title, isActive: true },
+      { title: 'Новая страница', isActive: true },
     ]);
   }
 
   removeTab(index: number) {
-    this.tabs$.next(
-      this.tabs$.getValue().filter((_, currentIndex) => index !== currentIndex)
-    );
+    const tabs = this.tabs$.getValue();
+
+    if (tabs[index].isActive === true) {
+      const newTabs = tabs.filter((_, currentIndex) => index !== currentIndex);
+      if (newTabs.length !== 0) newTabs[newTabs.length - 1].isActive = true;
+
+      return this.tabs$.next(newTabs);
+    }
+
+    this.tabs$.next(tabs.filter((_, currentIndex) => index !== currentIndex));
   }
 
   selectTab(index: number) {
@@ -39,6 +48,16 @@ export class TabService {
           index === currentIndex
             ? { ...current, isActive: true }
             : { ...current, isActive: false }
+        )
+    );
+  }
+
+  updateTab(index: number, data: Partial<ITab>) {
+    this.tabs$.next(
+      this.tabs$
+        .getValue()
+        .map((current, currentIndex) =>
+          index === currentIndex ? { ...current, ...data } : current
         )
     );
   }

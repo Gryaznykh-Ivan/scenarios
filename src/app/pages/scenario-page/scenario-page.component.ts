@@ -1,14 +1,15 @@
-import { CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Title } from '@angular/platform-browser';
+import { TabService } from 'src/app/services/tab.service';
 
 @Component({
   selector: 'scenario-page',
   templateUrl: './scenario-page.component.html',
 })
 export class ScenarioPageComponent implements OnInit {
-  constructor(private route: ActivatedRoute) {}
+  constructor(public tabService: TabService, private title: Title) {
+    this.title.setTitle('Конструктор сценариев');
+  }
 
   ngOnInit(): void {}
-
 }

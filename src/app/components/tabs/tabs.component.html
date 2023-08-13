@@ -14,10 +14,13 @@
     (click)="tabService.selectTab(i)"
     cdkDrag
   >
-    <div
-      class="flex-1 text-md font-medium whitespace-nowrap overflow-ellipsis overflow-hidden"
-    >
-      {{ tab.title }}
+    <div class="relative flex-1 w-full overflow-hidden">
+      <div class="">&nbsp;</div>
+      <div
+        class="absolute inset-0 text-md font-medium whitespace-nowrap overflow-ellipsis"
+      >
+        {{ tab.title }}
+      </div>
     </div>
     <button
       class="w-5 h-5 hover:bg-black/10 rounded-sm text-[20px]"
@@ -28,7 +31,7 @@
   </div>
   <button
     class="h-full flex justify-center items-center px-2 hover:bg-black/10"
-    (click)="tabService.createTab('TEST')"
+    (click)="tabService.createTab()"
   >
     <svg
       width="24"
