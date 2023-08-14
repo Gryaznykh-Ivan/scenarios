@@ -2,40 +2,15 @@
   <div class="relative z-10">
     <app-tabs></app-tabs>
   </div>
-  <mat-drawer-container class="flex-1 bg-slate-200">
-    <mat-drawer opened mode="side" position="start" den>
-      <p>Сценарии и действия</p>
-    </mat-drawer>
-    <mat-drawer opened mode="side" position="end">
-      <div class="border-l-[1px] border-gray-200 h-full p-2 px-3 min-w-[250px]">
-        <div class="text-lg font-medium mb-3">Свойства</div>
-        <div class="flex flex-col dense-2">
-          <mat-form-field appearance="outline">
-            <mat-label>Название сценария</mat-label>
-            <input matInput placeholder="Название сценария" />
-          </mat-form-field>
-          <mat-form-field appearance="outline">
-            <mat-label>Select</mat-label>
-            <mat-select>
-              <mat-option value="one">First option</mat-option>
-              <mat-option value="two">Second option</mat-option>
-            </mat-select>
-          </mat-form-field>
-          <mat-form-field appearance="outline">
-            <mat-label>Textarea</mat-label>
-            <textarea matInput></textarea>
-          </mat-form-field>
-        </div>
-      </div>
-    </mat-drawer>
-
+  <app-toolbar></app-toolbar>
+  <app-sidebars class="flex-1 bg-slate-200">
     <div
-      class="absolute inset-0 flex justify-center items-center"
       *ngIf="tabService.activeTab?.scenarioId === undefined"
+      class="absolute inset-0 flex justify-center items-center"
     >
       <app-filesystem-form
         class="bg-white shadow-sm w-full max-w-md rounded-md p-4"
       ></app-filesystem-form>
     </div>
-  </mat-drawer-container>
+  </app-sidebars>
 </div>

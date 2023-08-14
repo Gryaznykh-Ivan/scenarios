@@ -18,7 +18,11 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatRippleModule } from '@angular/material/core';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatIconModule } from '@angular/material/icon';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { RenameFileComponent } from './components/popups/rename-file/rename-file.component';
 import { RenameFolderComponent } from './components/popups/rename-folder/rename-folder.component';
 import { ConfirmComponent } from './components/popups/confirm/confirm.component';
@@ -31,6 +35,8 @@ import {
   DragDropModule,
 } from '@angular/cdk/drag-drop';
 import { TabsComponent } from './components/tabs/tabs.component';
+import { ToolbarComponent } from './components/toolbar/toolbar.component';
+import { SidebarsComponent } from './components/sidebars/sidebars.component';
 
 @NgModule({
   declarations: [
@@ -47,6 +53,8 @@ import { TabsComponent } from './components/tabs/tabs.component';
     ConfirmComponent,
     RemoveFolderComponent,
     TabsComponent,
+    ToolbarComponent,
+    SidebarsComponent,
   ],
   imports: [
     BrowserModule,
@@ -63,6 +71,10 @@ import { TabsComponent } from './components/tabs/tabs.component';
     MatTabsModule,
     DragDropModule,
     MatSidenavModule,
+    MatIconModule,
+    MatToolbarModule,
+    MatRippleModule,
+    MatTooltipModule
   ],
   providers: [],
   bootstrap: [AppComponent],

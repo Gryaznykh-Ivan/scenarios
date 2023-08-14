@@ -1,0 +1,59 @@
+<mat-drawer-container
+  class="h-full"
+  *ngIf="toolbarService.toolbar$ | async as toolbar"
+>
+  <mat-drawer
+    [opened]="toolbar.scenarios || toolbar.actions"
+    mode="side"
+    position="start"
+  >
+    <div class="h-full p-2 px-3 max-w-[500px] min-w-[250px]">
+      <div *ngIf="toolbar.scenarios">
+        <div class="text-lg font-medium mb-3">Сценарии</div>
+      </div>
+      <div *ngIf="toolbar.actions">
+        <div class="text-lg font-medium mb-3">Действия</div>
+      </div>
+    </div>
+  </mat-drawer>
+  <mat-drawer [opened]="toolbar.properties" mode="side" position="end">
+    <div class="h-full p-2 px-3 max-w-[500px] min-w-[250px]">
+      <div class="text-lg font-medium mb-3">Свойства</div>
+      <div class="flex flex-col dense-2">
+        <mat-form-field appearance="outline">
+          <mat-label>Название сценария</mat-label>
+          <input matInput placeholder="Название сценария" />
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Select</mat-label>
+          <mat-select>
+            <mat-option value="one">First option</mat-option>
+            <mat-option value="two">Second option</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Textarea</mat-label>
+          <textarea matInput></textarea>
+        </mat-form-field>
+      </div>
+    </div>
+  </mat-drawer>
+
+  <div class="flex flex-col h-full">
+    <div class="relative flex-1">
+      <ng-content></ng-content>
+    </div>
+    <div
+      class="border-t-[1px] overflow-hidden bg-white border-gray-200 transform transition-all max-h-[500px] min-h-0"
+      [ngClass]="{
+          'h-32': toolbar.console === true,
+          'h-0': toolbar.console === false,
+        }"
+    >
+      <div class="w-full h-1 hover:bg-black/10 cursor-grab"></div>
+      <div class="p-4">
+        <div class="">Тут будет консоль</div>
+      </div>
+    </div>
+  </div>
+</mat-drawer-container>
