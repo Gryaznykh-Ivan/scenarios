@@ -12,7 +12,6 @@ import {
   throwError,
 } from 'rxjs';
 import { IFolder } from 'src/app/models/filesystem.model';
-import { ErrorService } from 'src/app/services/error.service';
 import { FilesystemService } from 'src/app/services/filesystem.service';
 
 @Component({
@@ -20,12 +19,10 @@ import { FilesystemService } from 'src/app/services/filesystem.service';
   templateUrl: 'filesystem-form.component.html',
 })
 export class FilesystemFormComponent implements OnInit {
-  isLoading = false;
   folder$: Observable<IFolder>;
 
   constructor(
     public filesystemService: FilesystemService,
-    public errorService: ErrorService,
     public router: Router
   ) {}
 
@@ -34,14 +31,8 @@ export class FilesystemFormComponent implements OnInit {
   }
 
   getFolder() {
-    this.isLoading = true;
-
-    this.folder$ = this.filesystemService.refetch.pipe(
-      switchMap(() =>
-        this.filesystemService
-          .getFolder({ id: 0 })
-          .pipe(finalize(() => (this.isLoading = false)))
-      )
+    this.folder$ = this.filesystemService.refetch$.pipe(
+      switchMap(() => this.filesystemService.getFolder({ id: 0 }))
     );
   }
 

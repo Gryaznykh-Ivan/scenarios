@@ -1,16 +1,16 @@
-<div class="flex flex-col h-full">
+<div class="flex flex-col h-full bg-gray-100">
   <div class="relative z-10">
     <app-tabs></app-tabs>
   </div>
-  <app-toolbar></app-toolbar>
-  <app-sidebars class="flex-1 bg-gray-100">
-    <div
-      *ngIf="tabService.activeTab?.scenarioId === undefined"
-      class="absolute inset-0 flex justify-center items-center"
-    >
-      <app-filesystem-form
-        class="bg-white shadow-sm w-full max-w-md rounded-md p-4"
-      ></app-filesystem-form>
-    </div>
-  </app-sidebars>
+  <div
+    *ngIf="tabService.activeTab?.scenarioId === undefined"
+    class="absolute inset-0 flex justify-center items-center"
+  >
+    <app-filesystem-form
+      class="bg-white shadow-sm w-full max-w-md rounded-md p-4"
+    ></app-filesystem-form>
+  </div>
+  <!-- <app-toolbar></app-toolbar>
+  <app-sidebars class="flex-1">
+  </app-sidebars> -->
 </div>

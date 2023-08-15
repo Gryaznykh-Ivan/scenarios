@@ -1,7 +1,7 @@
 
   <div class="text-lg font-medium mb-2">Выбор модели</div>
   <div class="">
-    <div class="border-[1px] rounded-md max-h-[500px] overflow-y-auto">
+    <div class="border-[1px] rounded-md max-h-[400px] overflow-y-auto p-1.5">
       <app-folder
         *ngIf="folder$ | async as folder"
         [id]="folder.id"
@@ -13,7 +13,7 @@
         [isMainFolder]="true"
       >
       </app-folder>
-      <div *ngIf="isLoading" class="flex items-center justify-center py-4">
+      <div *ngIf="filesystemService.loading$ | async" class="flex items-center justify-center py-4">
         <svg
           class="animate-spin"
           width="24"
@@ -33,7 +33,7 @@
       </div>
       <div
         class="py-4 space-y-4"
-        *ngIf="errorService.error$ | async as message"
+        *ngIf="filesystemService.error$ | async as message"
       >
         <div class="text-center">Не удалось получить данные от сервера</div>
         <div class="flex justify-center items-center">

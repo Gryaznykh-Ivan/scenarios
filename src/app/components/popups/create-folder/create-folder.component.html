@@ -1,33 +1,17 @@
-<form
-  class="max-w-[560px] w-full"
-  [formGroup]="form"
-  (ngSubmit)="submit()">
-  <div
-    class="text-xl"
-    mat-dialog-title>Введите название папки</div>
-  <div mat-dialog-content>
-    <mat-form-field class="w-full">
+<form class="w-full px-8 py-5" [formGroup]="form" (ngSubmit)="submit()">
+  <div class="text-2xl">Введите название папки</div>
+  <div class="py-4">
+    <mat-form-field class="w-full dense-1" appearance="outline">
       <mat-label>Название папки</mat-label>
       <input
         matInput
         placeholder="Введите название файла"
         formControlName="name"
-      >
+      />
     </mat-form-field>
   </div>
-  <div
-    class="flex justify-end items-center gap-2"
-    mat-dialog-actions>
-    <button
-      mat-button
-      mat-dialog-close>
-      Отмена
-    </button>
-    <button
-      type="submit"
-      mat-button
-      color="primary">
-      Сохранить
-    </button>
+  <div class="flex justify-end items-center gap-2">
+    <button mat-button mat-dialog-close>Отмена</button>
+    <button type="submit" mat-button color="primary">Сохранить</button>
   </div>
 </form>
