@@ -11,6 +11,10 @@ body {
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; /* Standard syntax */
 }
 
 .dense-1 {
@@ -21,5 +25,5 @@ body {
   @include mat.all-component-densities(-2);
 }
 
-// For Material outline appearance fix
+// For Material outline appearance fix (tailwind)
 .mdc-notched-outline__notch { border-right: none; }

@@ -8,7 +8,7 @@
     <div
       class="group w-full h-full flex items-center gap-2 max-w-[200px] pl-3 pr-2 cursor-pointer rounded-t-md text-white"
       [ngClass]="{
-        'bg-primary': tab.isActive === true,
+        'bg-primary ring-1 ring-primary': tab.isActive === true,
         'bg-dark-primary': tab.isActive === false,
       }"
       cdkDragLockAxis="x"
@@ -34,11 +34,11 @@
         &times;
       </button>
     </div>
-    <div class="h-5 my-auto border-r-[1px] border-black/50"></div>
+    <div class="h-5 my-auto border-r-[1px] border-primary"></div>
   </ng-container>
   <button
     mat-ripple
-    class="h-full flex justify-center items-center px-2 mx-1 hover:bg-black/5 stroke-white rounded-sm"
+    class="h-full min-w-[40px] flex justify-center items-center px-2 mx-1 hover:bg-black/5 stroke-white rounded-sm"
     (click)="tabService.createTab()"
   >
     <svg

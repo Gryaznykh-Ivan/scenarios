@@ -37,6 +37,7 @@ import {
 import { TabsComponent } from './components/tabs/tabs.component';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { SidebarsComponent } from './components/sidebars/sidebars.component';
+import { DragableDirective } from './directives/draggable.directive';
 
 @NgModule({
   declarations: [
@@ -55,6 +56,7 @@ import { SidebarsComponent } from './components/sidebars/sidebars.component';
     TabsComponent,
     ToolbarComponent,
     SidebarsComponent,
+    DragableDirective,
   ],
   imports: [
     BrowserModule,
