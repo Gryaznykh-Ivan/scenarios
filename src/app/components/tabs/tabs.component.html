@@ -1,17 +1,16 @@
 <div
-  class="flex items-end w-full bg-gray-200 h-8"
+  class="flex items-end w-full bg-dark-primary h-10 pt-1 px-2"
   cdkDropList
   cdkDropListOrientation="horizontal"
   (cdkDropListDropped)="tabService.rearrangeTabs($event)"
 >
   <ng-container *ngFor="let tab of tabService.tabs$ | async; index as i">
-    <div class="h-5 my-auto border-l-[1px] border-gray-400" [ngClass]="{ 'hidden': i === 0 }"></div>
     <div
-      class="group w-full h-full flex items-center gap-2 max-w-[200px] pl-3 pr-2 cursor-pointer rounded-t-md"
+      class="group w-full h-full flex items-center gap-2 max-w-[200px] pl-3 pr-2 cursor-pointer rounded-t-md text-white"
       [ngClass]="{
-      'bg-primary text-white': tab.isActive === true,
-      'bg-gray-200 text-black': tab.isActive === false,
-    }"
+        'bg-primary': tab.isActive === true,
+        'bg-dark-primary': tab.isActive === false,
+      }"
       cdkDragLockAxis="x"
       (click)="tabService.selectTab(i)"
       cdkDrag
@@ -25,7 +24,7 @@
         </div>
       </div>
       <button
-        class="w-5 h-5 hover:bg-black/10 rounded-sm text-[20px]"
+        class="w-5 h-5 hover:bg-black/5 rounded-sm text-[20px]"
         [ngClass]="{
         'hidden group-hover:block' : tab.isActive === false,
         'block' : tab.isActive === false,
@@ -35,9 +34,11 @@
         &times;
       </button>
     </div>
+    <div class="h-5 my-auto border-r-[1px] border-black/50"></div>
   </ng-container>
   <button
-    class="h-full flex justify-center items-center px-2 hover:bg-black/10 stroke-black"
+    mat-ripple
+    class="h-full flex justify-center items-center px-2 mx-1 hover:bg-black/5 stroke-white rounded-sm"
     (click)="tabService.createTab()"
   >
     <svg
