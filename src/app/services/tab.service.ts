@@ -17,6 +17,10 @@ export class TabService {
     return this.tabs$.getValue().find((c) => c.isActive === true);
   }
 
+  get hasAnyTabs() {
+    return this.tabs$.getValue().length > 0;
+  }
+
   createTab() {
     const tabs = this.tabs$.getValue();
     if (tabs.length > 20) return;
@@ -29,6 +33,7 @@ export class TabService {
 
   removeTab(index: number) {
     const tabs = this.tabs$.getValue();
+    if (tabs.length === 1) return;
 
     if (tabs[index].isActive === true) {
       const newTabs = tabs.filter((_, currentIndex) => index !== currentIndex);
@@ -58,6 +63,18 @@ export class TabService {
         .getValue()
         .map((current, currentIndex) =>
           index === currentIndex ? { ...current, ...data } : current
+        )
+    );
+  }
+
+  updateActiveTab(data: Partial<ITab>) {
+    if (this.hasAnyTabs === false) return;
+
+    this.tabs$.next(
+      this.tabs$
+        .getValue()
+        .map((current, currentIndex) =>
+          current.isActive === true ? { ...current, ...data } : current
         )
     );
   }

@@ -11,17 +11,19 @@ import {
   tap,
   throwError,
 } from 'rxjs';
-import { IFolder } from 'src/app/models/filesystem.model';
+import { IFilesystemFile, IFilesystemFolder } from 'src/app/models/filesystem.model';
 import { FilesystemService } from 'src/app/services/filesystem.service';
+import { TabService } from 'src/app/services/tab.service';
 
 @Component({
   selector: 'app-filesystem-form',
   templateUrl: 'filesystem-form.component.html',
 })
 export class FilesystemFormComponent implements OnInit {
-  folder$: Observable<IFolder>;
+  folder$: Observable<IFilesystemFolder>;
 
   constructor(
+    public tabService: TabService,
     public filesystemService: FilesystemService,
     public router: Router
   ) {}
@@ -36,7 +38,7 @@ export class FilesystemFormComponent implements OnInit {
     );
   }
 
-  selectFile = (id: number) => {
-    this.router.navigateByUrl(`/scenario/${id}`);
+  selectFile = (data: IFilesystemFile) => {
+    this.tabService.updateActiveTab({ title: data.name, scenarioId: data.id })
   };
 }

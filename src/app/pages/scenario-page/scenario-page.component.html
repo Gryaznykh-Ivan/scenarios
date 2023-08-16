@@ -10,7 +10,15 @@
       class="bg-white shadow-sm w-full max-w-md rounded-md p-4"
     ></app-filesystem-form>
   </div>
-  <!-- <app-toolbar></app-toolbar>
-  <app-sidebars class="flex-1">
-  </app-sidebars> -->
+  <ng-container
+    *ngIf="
+      tabService.hasAnyTabs === true &&
+      tabService.activeTab?.scenarioId !== undefined
+    "
+  >
+    <app-toolbar></app-toolbar>
+    <app-sidebars class="flex-1">
+      <div class="">TEST</div>
+    </app-sidebars>
+  </ng-container>
 </div>

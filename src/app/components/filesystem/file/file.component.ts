@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { RenameFileComponent } from '../../popups/rename-file/rename-file.component';
 import { ConfirmComponent } from '../../popups/confirm/confirm.component';
 import { FilesystemService } from 'src/app/services/filesystem.service';
+import { IFilesystemFile } from 'src/app/models/filesystem.model';
 
 @Component({
     selector: 'app-file',
@@ -12,7 +13,7 @@ import { FilesystemService } from 'src/app/services/filesystem.service';
 export class FileComponent implements OnInit {
     @Input() id: number;
     @Input() name: string;
-    @Input() selectFile: (id: number) => void
+    @Input() selectFile: (data: IFilesystemFile) => void
 
     constructor(private dialog: MatDialog, private filesystemService: FilesystemService) { }
 

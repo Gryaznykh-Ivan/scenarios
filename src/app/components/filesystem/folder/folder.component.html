@@ -116,14 +116,14 @@
     *ngFor="let folder of childFolders; trackBy: identify"
     [id]="folder.id"
     [name]="folder.name"
-    [models]="folder.models"
+    [files]="folder.files"
     [childFolders]="folder.childFolders"
     [selectedFileId]="selectedFileId"
     [selectFile]="selectFile"
   >
   </app-folder>
   <app-file
-    *ngFor="let file of models; trackBy: identify"
+    *ngFor="let file of files; trackBy: identify"
     [id]="file.id"
     [name]="file.name"
     [selectFile]="selectFile"

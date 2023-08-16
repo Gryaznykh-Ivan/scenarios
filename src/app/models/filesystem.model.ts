@@ -1,24 +1,24 @@
-export interface IFile {
+export interface IFilesystemFile {
     id: number;
     name: string;
     description: string | null;
 }
 
-export interface IFolder {
+export interface IFilesystemFolder {
     id: number;
     name: string;
     description: string | null;
-    models: IFile[];
-    childFolders: IFolder[];
+    files: IFilesystemFile[];
+    childFolders: IFilesystemFolder[];
 }
 
-export type ICreateFolderResponse = IFolder
+export type ICreateFolderResponse = IFilesystemFolder
 export interface ICreateFolderRequest {
     parentFolderId: number;
     name: string;
 }
 
-export type ICreateFileResponse = IFile
+export type ICreateFileResponse = IFilesystemFile
 export interface ICreateFileRequest {
     parentFolderId: number;
     name: string;
@@ -36,13 +36,13 @@ export interface IRemoveFileRequest {
 }
 
 
-export type IRenameFileResponse = IFile
+export type IRenameFileResponse = IFilesystemFile
 export interface IRenameFileRequest {
     id: number;
     name: string;
 }
 
-export type IRenameFolderResponse = IFolder
+export type IRenameFolderResponse = IFilesystemFolder
 export interface IRenameFolderRequest {
     id: number;
     name: string;

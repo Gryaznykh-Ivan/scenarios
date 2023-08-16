@@ -17,7 +17,7 @@ import {
 } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import {
-  IFolder,
+  IFilesystemFolder,
   ICreateFileRequest,
   ICreateFileResponse,
   ICreateFolderRequest,
@@ -52,11 +52,11 @@ export class FilesystemService {
     return this._error$.asObservable()
   }
 
-  getFolder(data: Pick<IFolder, 'id'>): Observable<IFolder> {
+  getFolder(data: Pick<IFilesystemFolder, 'id'>): Observable<IFilesystemFolder> {
     this._loading$.next(true);
 
     return this.http
-      .get<IFolder>(`${environment.BASE_URL}/folder`, {
+      .get<IFilesystemFolder>(`${environment.BASE_URL}/folder`, {
         params: new HttpParams({
           fromObject: {
             id: data.id,
@@ -70,7 +70,7 @@ export class FilesystemService {
       );
   }
 
-  isFolderEmpty(data: Pick<IFolder, 'id'>): Observable<boolean> {
+  isFolderEmpty(data: Pick<IFilesystemFolder, 'id'>): Observable<boolean> {
     this._loading$.next(true);
 
     return this.http

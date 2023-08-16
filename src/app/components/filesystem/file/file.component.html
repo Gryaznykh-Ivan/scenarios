@@ -1,6 +1,6 @@
 <div
   class="group flex items-center gap-2 p-0.5 rounded hover:bg-gray-100 cursor-pointer"
-  (dblclick)="selectFile(id)"
+  (dblclick)="selectFile({ id, name, description: null })"
 >
   <div class>
     <svg

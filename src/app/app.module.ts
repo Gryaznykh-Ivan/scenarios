@@ -38,6 +38,10 @@ import { TabsComponent } from './components/tabs/tabs.component';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { SidebarsComponent } from './components/sidebars/sidebars.component';
 import { DragableDirective } from './directives/draggable.directive';
+import { LetDirective } from './directives/let.directive';
+import { LeftsidebarComponent } from './components/sidebars/leftsidebar/leftsidebar.component';
+import { RightsidebarComponent } from './components/sidebars/rightsidebar/rightsidebar.component';
+import { BottomsidebarComponent } from './components/sidebars/bottomsidebar/bottomsidebar.component';
 
 @NgModule({
   declarations: [
@@ -57,6 +61,10 @@ import { DragableDirective } from './directives/draggable.directive';
     ToolbarComponent,
     SidebarsComponent,
     DragableDirective,
+    LetDirective,
+    LeftsidebarComponent,
+    RightsidebarComponent,
+    BottomsidebarComponent,
   ],
   imports: [
     BrowserModule,
