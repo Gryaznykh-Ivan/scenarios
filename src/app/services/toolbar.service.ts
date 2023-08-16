@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
-import { IToolbar } from '../models/toolbar.module';
+import { IToolbar } from '../models/toolbar.model';
 
 @Injectable({
   providedIn: 'root',

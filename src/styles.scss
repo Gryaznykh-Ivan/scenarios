@@ -27,3 +27,23 @@ body {
 
 // For Material outline appearance fix (tailwind)
 .mdc-notched-outline__notch { border-right: none; }
+
+// For scrollbar
+* {
+  scrollbar-width: thin;
+  scrollbar-color: gray transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 6px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: gray;
+  border-radius: 20px;
+  border: transparent;
+}

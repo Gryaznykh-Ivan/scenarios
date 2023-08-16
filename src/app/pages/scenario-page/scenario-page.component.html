@@ -3,7 +3,7 @@
     <app-tabs></app-tabs>
   </div>
   <div
-    *ngIf="tabService.activeTab?.scenarioId === undefined"
+    *ngIf="tabService.activeTab?.fileId === undefined"
     class="absolute inset-0 flex justify-center items-center"
   >
     <app-filesystem-form
@@ -13,7 +13,7 @@
   <ng-container
     *ngIf="
       tabService.hasAnyTabs === true &&
-      tabService.activeTab?.scenarioId !== undefined
+      tabService.activeTab?.fileId !== undefined
     "
   >
     <app-toolbar></app-toolbar>

@@ -17,7 +17,7 @@ import {
 } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import {
-  IFilesystemFolder,
+  IFolder,
   ICreateFileRequest,
   ICreateFileResponse,
   ICreateFolderRequest,
@@ -52,11 +52,11 @@ export class FilesystemService {
     return this._error$.asObservable()
   }
 
-  getFolder(data: Pick<IFilesystemFolder, 'id'>): Observable<IFilesystemFolder> {
+  getFolder(data: Pick<IFolder, 'id'>): Observable<IFolder> {
     this._loading$.next(true);
 
     return this.http
-      .get<IFilesystemFolder>(`${environment.BASE_URL}/folder`, {
+      .get<IFolder>(`${environment.BASE_URL}/folder`, {
         params: new HttpParams({
           fromObject: {
             id: data.id,
@@ -70,7 +70,7 @@ export class FilesystemService {
       );
   }
 
-  isFolderEmpty(data: Pick<IFilesystemFolder, 'id'>): Observable<boolean> {
+  isFolderEmpty(data: Pick<IFolder, 'id'>): Observable<boolean> {
     this._loading$.next(true);
 
     return this.http
@@ -120,7 +120,7 @@ export class FilesystemService {
 
     return this.http
       .post<ICreateFileResponse>(
-        `${environment.BASE_URL}/model`,
+        `${environment.BASE_URL}/file`,
         {
           name: data.name,
         },
@@ -146,7 +146,7 @@ export class FilesystemService {
     this._loading$.next(true);
 
     return this.http
-      .delete<IRemoveFileResponse>(`${environment.BASE_URL}/model`, {
+      .delete<IRemoveFileResponse>(`${environment.BASE_URL}/file`, {
         params: new HttpParams({
           fromObject: {
             id: data.id,
@@ -217,7 +217,7 @@ export class FilesystemService {
 
     return this.http
       .patch<IRenameFileResponse>(
-        `${environment.BASE_URL}/model`,
+        `${environment.BASE_URL}/file`,
         {
           name: data.name,
         },

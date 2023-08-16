@@ -39,9 +39,7 @@ import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { SidebarsComponent } from './components/sidebars/sidebars.component';
 import { DragableDirective } from './directives/draggable.directive';
 import { LetDirective } from './directives/let.directive';
-import { LeftsidebarComponent } from './components/sidebars/leftsidebar/leftsidebar.component';
-import { RightsidebarComponent } from './components/sidebars/rightsidebar/rightsidebar.component';
-import { BottomsidebarComponent } from './components/sidebars/bottomsidebar/bottomsidebar.component';
+import { ScenariosComponent } from './components/scenarios/scenarios.component';
 
 @NgModule({
   declarations: [
@@ -62,9 +60,7 @@ import { BottomsidebarComponent } from './components/sidebars/bottomsidebar/bott
     SidebarsComponent,
     DragableDirective,
     LetDirective,
-    LeftsidebarComponent,
-    RightsidebarComponent,
-    BottomsidebarComponent,
+    ScenariosComponent,
   ],
   imports: [
     BrowserModule,

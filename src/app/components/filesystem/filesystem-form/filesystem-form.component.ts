@@ -11,7 +11,7 @@ import {
   tap,
   throwError,
 } from 'rxjs';
-import { IFilesystemFile, IFilesystemFolder } from 'src/app/models/filesystem.model';
+import { IFile, IFolder } from 'src/app/models/filesystem.model';
 import { FilesystemService } from 'src/app/services/filesystem.service';
 import { TabService } from 'src/app/services/tab.service';
 
@@ -20,7 +20,7 @@ import { TabService } from 'src/app/services/tab.service';
   templateUrl: 'filesystem-form.component.html',
 })
 export class FilesystemFormComponent implements OnInit {
-  folder$: Observable<IFilesystemFolder>;
+  folder$: Observable<IFolder>;
 
   constructor(
     public tabService: TabService,
@@ -38,7 +38,7 @@ export class FilesystemFormComponent implements OnInit {
     );
   }
 
-  selectFile = (data: IFilesystemFile) => {
-    this.tabService.updateActiveTab({ title: data.name, scenarioId: data.id })
+  selectFile = (data: IFile) => {
+    this.tabService.updateActiveTab({ title: data.name, fileId: data.id })
   };
 }

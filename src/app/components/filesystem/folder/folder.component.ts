@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { IFilesystemFile, IFilesystemFolder } from 'src/app/models/filesystem.model';
+import { IFile, IFolder } from 'src/app/models/filesystem.model';
 import { CreateFileComponent } from '../../popups/create-file/create-file.component';
 import { CreateFolderComponent } from '../../popups/create-folder/create-folder.component';
 import { RenameFileComponent } from '../../popups/rename-file/rename-file.component';
@@ -15,10 +15,10 @@ import { RemoveFolderComponent } from '../../popups/remove-folder/remove-folder.
 export class FolderComponent implements OnInit {
     @Input() id: number;
     @Input() name: string;
-    @Input() files: IFilesystemFile[];
-    @Input() childFolders: IFilesystemFolder[];
+    @Input() files: IFile[];
+    @Input() childFolders: IFolder[];
     @Input() selectedFileId: number | null;
-    @Input() selectFile: (data: IFilesystemFile) => void
+    @Input() selectFile: (data: IFile) => void
     @Input() isRevealed = false
     @Input() isMainFolder = false
 

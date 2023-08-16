@@ -1,16 +1,105 @@
-<div class="relative h-full box-border flex justify-center overflow-hidden">
-  <app-leftsidebar
-    class="bg-white border-r-[1px] border-gray-200 overflow-hidden"
-  ></app-leftsidebar>
+<div
+  *ngIf="toolbarService.toolbar$ | async as toolbar"
+  class="relative h-full box-border flex justify-center overflow-hidden"
+>
+  <div
+    class="bg-white border-r-[1px] border-gray-200 transition-all overflow-hidden"
+    [ngStyle]="{
+      width:
+        toolbar.scenarios !== false || toolbar.actions !== false
+          ? leftSidebarWidth + leftSidebarExtraWidth + 'px'
+          : '0px',
+      transition: isDragging === true ? 'none 0s ease 0s' : ''
+    }"
+    draggable
+    dragHandle="#dragLeftSidebarHandle"
+    (onDragStart)="onSidebarDragStart()"
+    (onDragMove)="onLeftSidebarDragMove($event)"
+    (onDragEnd)="onLeftSidebarDragEnd()"
+  >
+    <div class="relative h-full p-3">
+      <div
+        id="dragLeftSidebarHandle"
+        class="absolute right-0 top-0 h-full w-1.5 hover:bg-black/10 cursor-ew-resize"
+      ></div>
+      <ng-container *ngIf="toolbar.scenarios">
+        <app-scenarios></app-scenarios>
+      </ng-container>
+      <div *ngIf="toolbar.actions">
+        <div class="text-lg font-medium mb-3">Действия</div>
+      </div>
+    </div>
+  </div>
   <div class="flex-1">
     <div class="flex flex-col h-full">
       <div class="relative flex-1">
         <ng-content></ng-content>
       </div>
-      <app-bottomsidebar></app-bottomsidebar>
+      <div
+        class="relative border-t-[1px] bg-white border-gray-200 transition-transform overflow-hidden"
+        [ngClass]="{
+          'translate-y-full': toolbar.console === false,
+          'translate-y-0': toolbar.console === true,
+        }"
+        draggable
+        dragHandle="#dragConsoleHandle"
+        (onDragMove)="onBottomSidebarDragMove($event)"
+        (onDragEnd)="onBottomSidebarDragEnd()"
+      >
+        <div
+          [ngStyle]="{
+            height: bottomSidebarHeight + bottomSidebarExtraHeight + 'px'
+          }"
+        >
+          <div
+            id="dragConsoleHandle"
+            class="absolute top-0 left-0 w-full h-1.5 hover:bg-black/10 cursor-ns-resize"
+          ></div>
+          <div class="p-4">
+            <div class="">Тут будет консоль</div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-  <app-rightsidebar
-    class="bg-white border-l-[1px] border-gray-200 overflow-hidden"
-  ></app-rightsidebar>
+  <div
+    class="bg-white border-l-[1px] border-gray-200 transition-all overflow-hidden"
+    [ngStyle]="{
+      width:
+        toolbar.properties === true
+          ? rightSidebarWidth + rightSidebarExtraWidth + 'px'
+          : '0px',
+      transition: isDragging === true ? 'none 0s ease 0s' : ''
+    }"
+    draggable
+    dragHandle="#dragRightSidebarHandle"
+    (onDragStart)="onSidebarDragStart()"
+    (onDragMove)="onRightSidebarDragMove($event)"
+    (onDragEnd)="onRightSidebarDragEnd()"
+  >
+    <div class="relative h-full p-3">
+      <div
+        id="dragRightSidebarHandle"
+        class="absolute left-0 top-0 h-full w-1.5 hover:bg-black/10 cursor-ew-resize"
+      ></div>
+      <div class="text-lg font-medium mb-3">Свойства</div>
+      <div class="flex flex-col dense-2">
+        <mat-form-field appearance="outline">
+          <mat-label>Название сценария</mat-label>
+          <input matInput placeholder="Название сценария" />
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Select</mat-label>
+          <mat-select>
+            <mat-option value="one">First option</mat-option>
+            <mat-option value="two">Second option</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Textarea</mat-label>
+          <textarea matInput></textarea>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
 </div>
