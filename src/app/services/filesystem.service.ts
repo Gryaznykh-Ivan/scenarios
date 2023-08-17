@@ -14,6 +14,12 @@ import {
   BehaviorSubject,
   delay,
   finalize,
+  timeout,
+  debounceTime,
+  switchMap,
+  of,
+  startWith,
+  defer,
 } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import {
@@ -34,26 +40,26 @@ import {
 
 @Injectable({ providedIn: 'root' })
 export class FilesystemService {
+  _loading$ = new BehaviorSubject<boolean>(true);
   _refetch$ = new BehaviorSubject<boolean>(true);
-  _loading$ = new BehaviorSubject<boolean>(false);
   _error$ = new BehaviorSubject<string>('');
 
   constructor(private http: HttpClient) {}
 
-  get refetch$(){
-    return this._refetch$.asObservable()
+  get refetch$() {
+    return this._refetch$.asObservable();
   }
 
-  get loading$(){
-    return this._loading$.asObservable()
+  get loading$() {
+    return this._loading$.asObservable();
   }
 
-  get error$(){
-    return this._error$.asObservable()
+  get error$() {
+    return this._error$.asObservable();
   }
 
   getFolder(data: Pick<IFolder, 'id'>): Observable<IFolder> {
-    this._loading$.next(true);
+    setTimeout(() => this._loading$.next(true), 0);
 
     return this.http
       .get<IFolder>(`${environment.BASE_URL}/folder`, {
@@ -71,7 +77,7 @@ export class FilesystemService {
   }
 
   isFolderEmpty(data: Pick<IFolder, 'id'>): Observable<boolean> {
-    this._loading$.next(true);
+    setTimeout(() => this._loading$.next(true), 0);
 
     return this.http
       .get<boolean>(`${environment.BASE_URL}/folder/isEmpty`, {
@@ -89,7 +95,7 @@ export class FilesystemService {
   }
 
   createFolder(data: ICreateFolderRequest): Observable<ICreateFolderResponse> {
-    this._loading$.next(true);
+    setTimeout(() => this._loading$.next(true), 0);
 
     return this.http
       .post<ICreateFolderResponse>(
@@ -116,7 +122,7 @@ export class FilesystemService {
   }
 
   createFile(data: ICreateFileRequest): Observable<ICreateFileResponse> {
-    this._loading$.next(true);
+    setTimeout(() => this._loading$.next(true), 0);
 
     return this.http
       .post<ICreateFileResponse>(
@@ -143,7 +149,7 @@ export class FilesystemService {
   }
 
   removeFile(data: IRemoveFileRequest): Observable<IRemoveFileResponse> {
-    this._loading$.next(true);
+    setTimeout(() => this._loading$.next(true), 0);
 
     return this.http
       .delete<IRemoveFileResponse>(`${environment.BASE_URL}/file`, {
@@ -164,7 +170,7 @@ export class FilesystemService {
   }
 
   removeFolder(data: IRemoveFolderRequest): Observable<IRemoveFolderResponse> {
-    this._loading$.next(true);
+    setTimeout(() => this._loading$.next(true), 0);
 
     return this.http
       .delete<IRemoveFolderResponse>(`${environment.BASE_URL}/folder`, {
@@ -186,7 +192,7 @@ export class FilesystemService {
   }
 
   renameFolder(data: IRenameFolderRequest): Observable<IRenameFolderResponse> {
-    this._loading$.next(true);
+    setTimeout(() => this._loading$.next(true), 0);
 
     return this.http
       .patch<IRenameFolderResponse>(
@@ -213,7 +219,7 @@ export class FilesystemService {
   }
 
   renameFile(data: IRenameFileRequest): Observable<IRenameFileResponse> {
-    this._loading$.next(true);
+    setTimeout(() => this._loading$.next(true), 0);
 
     return this.http
       .patch<IRenameFileResponse>(
@@ -239,8 +245,8 @@ export class FilesystemService {
       );
   }
 
-  private errorHandler(_error: HttpErrorResponse) {
-    this._error$.next(_error.message);
-    return throwError(() => _error.message);
+  private errorHandler(error: HttpErrorResponse) {
+    this._error$.next(error.message);
+    return throwError(() => error.message);
   }
 }

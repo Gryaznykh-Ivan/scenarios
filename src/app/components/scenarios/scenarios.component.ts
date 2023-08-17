@@ -6,8 +6,6 @@ import { TabService } from 'src/app/services/tab.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmWithNameComponent } from '../popups/confirm-with-name/confirm-with-name.component';
 import { ConfirmComponent } from '../popups/confirm/confirm.component';
-import { ITab } from 'src/app/models/tab.model';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-scenarios',
@@ -20,7 +18,7 @@ export class ScenariosComponent implements OnInit {
 
   constructor(
     public tabService: TabService,
-    private scenarioService: ScenarioService,
+    public scenarioService: ScenarioService,
     private dialog: MatDialog
   ) {}
 

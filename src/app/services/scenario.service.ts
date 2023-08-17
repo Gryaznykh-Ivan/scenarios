@@ -31,16 +31,14 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   providedIn: 'root',
 })
 export class ScenarioService {
-  private _refetch$ = new BehaviorSubject<boolean>(true);
   private _loading$ = new BehaviorSubject<boolean>(false);
+  private _refetch$ = new BehaviorSubject<boolean>(true);
   private _error$ = new BehaviorSubject<string>('');
 
   fileId?: number;
 
   constructor(private http: HttpClient, private tabService: TabService) {
     this.tabService.tabs$.pipe(takeUntilDestroyed()).subscribe((tabs) => {
-      console.log(tabs)
-
       const activeTab = tabs.find((c) => c.isActive === true);
       if (activeTab === undefined) return;
       if (this.fileId === activeTab.fileId) return;
@@ -68,7 +66,7 @@ export class ScenarioService {
   getScenarios(): Observable<IScenario[]> {
     if (this.fileId === undefined) return throwError(() => 'FileId не найден');
 
-    this._loading$.next(true);
+    setTimeout(() => this._loading$.next(true), 0);
 
     return this.http
       .get<IScenario[]>(`${environment.BASE_URL}/file/scenarios`, {
@@ -90,7 +88,7 @@ export class ScenarioService {
   ): Observable<ICreateScenarioResponse> {
     if (this.fileId === undefined) return throwError(() => 'FileId не найден');
 
-    this._loading$.next(true);
+    setTimeout(() => this._loading$.next(true), 0);
 
     return this.http
       .post<ICreateScenarioResponse>(
@@ -122,7 +120,7 @@ export class ScenarioService {
   ): Observable<IRemoveScenarioResponse> {
     if (this.fileId === undefined) return throwError(() => 'FileId не найден');
 
-    this._loading$.next(true);
+    setTimeout(() => this._loading$.next(true), 0);
 
     return this.http
       .delete<IRemoveScenarioResponse>(`${environment.BASE_URL}/scenario`, {
@@ -142,8 +140,8 @@ export class ScenarioService {
       );
   }
 
-  private errorHandler(_error: HttpErrorResponse) {
-    this._error$.next(_error.message);
-    return throwError(() => _error.message);
+  private errorHandler(error: HttpErrorResponse) {
+    this._error$.next(error.message);
+    return throwError(() => error.message);
   }
 }
