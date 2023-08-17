@@ -3,6 +3,6 @@
   <div class="py-4">{{ data.message }}</div>
   <div class="flex justify-end items-center gap-2">
     <button mat-button mat-dialog-close *ngIf="data.NO">{{ data.NO }}</button>
-    <button mat-button color="warn" cdkFocusInitial *ngIf="data.YES" (click)="onConfirm()">{{data.YES}}</button>
+    <button mat-raised-button color="warn" cdkFocusInitial *ngIf="data.YES" (click)="onConfirm()">{{data.YES}}</button>
   </div>
 </div>

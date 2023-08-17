@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { IConfirmWithName, IConfirmWithNameResult } from 'src/app/models/confirm.model';
+import { IConfirmWithName } from 'src/app/models/confirm.model';
 
 @Component({
   selector: 'app-confirm-with-name',
@@ -9,7 +9,7 @@ import { IConfirmWithName, IConfirmWithNameResult } from 'src/app/models/confirm
 })
 export class ConfirmWithNameComponent {
   constructor(
-    public dialogRef: MatDialogRef<IConfirmWithName, IConfirmWithNameResult>,
+    public dialogRef: MatDialogRef<IConfirmWithName>,
     @Inject(MAT_DIALOG_DATA) public data: IConfirmWithName
   ) { }
 

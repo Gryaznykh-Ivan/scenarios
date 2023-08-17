@@ -22,14 +22,8 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { ConfirmComponent } from './components/popups/confirm/confirm.component';
-import { RemoveFolderComponent } from './components/popups/remove-folder/remove-folder.component';
-import {
-  CdkDragDrop,
-  CdkDrag,
-  CdkDropList,
-  moveItemInArray,
-  DragDropModule,
-} from '@angular/cdk/drag-drop';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 import { TabsComponent } from './components/tabs/tabs.component';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { SidebarsComponent } from './components/sidebars/sidebars.component';
@@ -38,6 +32,7 @@ import { LetDirective } from './directives/let.directive';
 import { ScenariosComponent } from './components/scenarios/scenarios.component';
 import { ConfirmWithNameComponent } from './components/popups/confirm-with-name/confirm-with-name.component';
 import { SearchFilterPipe } from './pipes/search-filter.pipe';
+import { ConfirmWithCheckboxComponent } from './components/popups/confirm-with-checkbox/confirm-with-checkbox.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +43,6 @@ import { SearchFilterPipe } from './pipes/search-filter.pipe';
     FolderComponent,
     FileComponent,
     ConfirmComponent,
-    RemoveFolderComponent,
     TabsComponent,
     ToolbarComponent,
     SidebarsComponent,
@@ -57,6 +51,7 @@ import { SearchFilterPipe } from './pipes/search-filter.pipe';
     ScenariosComponent,
     ConfirmWithNameComponent,
     SearchFilterPipe,
+    ConfirmWithCheckboxComponent,
   ],
   imports: [
     BrowserModule,
@@ -76,7 +71,8 @@ import { SearchFilterPipe } from './pipes/search-filter.pipe';
     MatIconModule,
     MatToolbarModule,
     MatRippleModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatCheckboxModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

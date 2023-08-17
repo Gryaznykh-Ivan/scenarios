@@ -1,0 +1,11 @@
+<form class="w-full px-8 py-5 space-y-4" [formGroup]="form" (ngSubmit)="submit()">
+    <div class="text-xl">{{ data.title }}</div>
+    <div>{{ data.message }}</div>
+    <div>
+        <mat-checkbox formControlName="checked" color="primary">{{data.checkedLabel}}</mat-checkbox>
+    </div>
+    <div class="flex justify-end items-center gap-2">
+        <button mat-button mat-dialog-close *ngIf="data.NO">{{ data.NO }}</button>
+        <button type="submit" mat-raised-button color="warn" cdkFocusInitial *ngIf="data.YES">{{data.YES}}</button>
+      </div>
+  </form>

@@ -5,10 +5,18 @@ export interface IConfirm {
   YES?: string;
 }
 
-export type IConfirmWithNameResult = Required<Pick<IConfirmWithName, "name">>
 export interface IConfirmWithName {
   title: string;
   name?: string;
+  NO?: string;
+  YES?: string;
+}
+
+export interface IConfirmWithCheckbox {
+  title: string;
+  message: string;
+  checkedLabel: string;
+  checked?: boolean;
   NO?: string;
   YES?: string;
 }

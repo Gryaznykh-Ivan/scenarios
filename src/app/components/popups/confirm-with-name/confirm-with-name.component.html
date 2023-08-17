@@ -12,6 +12,6 @@
     </div>
     <div class="flex justify-end items-center gap-2">
         <button mat-button mat-dialog-close *ngIf="data.NO">{{ data.NO }}</button>
-        <button type="submit" mat-raised-button color="primary" *ngIf="data.YES">{{data.YES}}</button>
+        <button type="submit" mat-raised-button cdkFocusInitial color="primary" *ngIf="data.YES">{{data.YES}}</button>
       </div>
   </form>

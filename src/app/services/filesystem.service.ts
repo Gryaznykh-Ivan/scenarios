@@ -77,8 +77,6 @@ export class FilesystemService {
   }
 
   isFolderEmpty(data: Pick<IFolder, 'id'>): Observable<boolean> {
-    setTimeout(() => this._loading$.next(true), 0);
-
     return this.http
       .get<boolean>(`${environment.BASE_URL}/folder/isEmpty`, {
         params: new HttpParams({

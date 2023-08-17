@@ -4,7 +4,7 @@ import { ConfirmComponent } from '../../popups/confirm/confirm.component';
 import { FilesystemService } from 'src/app/services/filesystem.service';
 import { IFile } from 'src/app/models/filesystem.model';
 import { ConfirmWithNameComponent } from '../../popups/confirm-with-name/confirm-with-name.component';
-import { IConfirmWithName, IConfirmWithNameResult } from 'src/app/models/confirm.model';
+import { IConfirmWithName } from 'src/app/models/confirm.model';
 
 @Component({
     selector: 'app-file',
@@ -49,7 +49,7 @@ export class FileComponent implements OnInit {
             maxWidth: "500px",
             data: {
                 title: "Вы уверены?",
-                message: "Модель будет удалена",
+                message: "Файл будет удален",
                 YES: "Да",
                 NO: "Нет"
             }
