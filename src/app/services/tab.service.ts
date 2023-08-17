@@ -14,7 +14,7 @@ export class TabService {
   constructor() {}
 
   get tabs$() {
-    return this._tabs$.asObservable()
+    return this._tabs$.asObservable();
   }
 
   get activeTab() {
@@ -77,6 +77,18 @@ export class TabService {
       );
 
     this._tabs$.next(newTabs);
+  }
+
+  // Метод проверяет наличие несуществующий значений у ключей
+  // Если они есть - ставит undefined
+  maintainIntegrity(key: keyof ITab, value: any) {
+    const newTabs = this._tabs$
+      .getValue()
+      .map((current) =>
+        current[key] === value ? { ...current, [key]: undefined } : current
+      );
+
+      this._tabs$.next(newTabs);
   }
 
   rearrangeTabs(event: CdkDragDrop<ITab[]>) {

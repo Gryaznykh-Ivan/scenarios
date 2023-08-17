@@ -26,6 +26,7 @@ import {
 import { environment } from 'src/environments/environment';
 import { TabService } from './tab.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ITab } from '../models/tab.model';
 
 @Injectable({
   providedIn: 'root',
@@ -34,18 +35,18 @@ export class ScenarioService {
   private _loading$ = new BehaviorSubject<boolean>(false);
   private _refetch$ = new BehaviorSubject<boolean>(true);
   private _error$ = new BehaviorSubject<string>('');
-
-  fileId?: number;
+  private _activeTab?: ITab;
 
   constructor(private http: HttpClient, private tabService: TabService) {
     this.tabService.tabs$.pipe(takeUntilDestroyed()).subscribe((tabs) => {
       const activeTab = tabs.find((c) => c.isActive === true);
+      
       if (activeTab === undefined) return;
-      if (this.fileId === activeTab.fileId) return;
+      if (this._activeTab?.fileId === activeTab.fileId) return
 
-      this.fileId = activeTab.fileId;
+      this._activeTab = activeTab;
 
-      if (typeof this.fileId === 'number') {
+      if (typeof this._activeTab?.fileId === 'number') {
         this._refetch$.next(false);
       }
     });
@@ -64,7 +65,7 @@ export class ScenarioService {
   }
 
   getScenarios(): Observable<IScenario[]> {
-    if (this.fileId === undefined) return throwError(() => 'FileId не найден');
+    if (this._activeTab?.fileId === undefined) return throwError(() => 'fileId не найден');
 
     setTimeout(() => this._loading$.next(true), 0);
 
@@ -72,7 +73,7 @@ export class ScenarioService {
       .get<IScenario[]>(`${environment.BASE_URL}/file/scenarios`, {
         params: new HttpParams({
           fromObject: {
-            id: this.fileId,
+            id: this._activeTab.fileId,
           },
         }),
       })
@@ -86,7 +87,7 @@ export class ScenarioService {
   createScenario(
     data: ICreateScenarioRequest
   ): Observable<ICreateScenarioResponse> {
-    if (this.fileId === undefined) return throwError(() => 'FileId не найден');
+    if (this._activeTab?.fileId === undefined) return throwError(() => 'fileId не найден');
 
     setTimeout(() => this._loading$.next(true), 0);
 
@@ -100,7 +101,7 @@ export class ScenarioService {
         {
           params: new HttpParams({
             fromObject: {
-              fileId: this.fileId,
+              fileId: this._activeTab.fileId,
             },
           }),
         }
@@ -118,7 +119,7 @@ export class ScenarioService {
   removeScenario(
     data: IRemoveScenarioRequest
   ): Observable<IRemoveScenarioResponse> {
-    if (this.fileId === undefined) return throwError(() => 'FileId не найден');
+    if (this._activeTab?.fileId === undefined) return throwError(() => 'fileId не найден');
 
     setTimeout(() => this._loading$.next(true), 0);
 
@@ -132,6 +133,8 @@ export class ScenarioService {
       })
       .pipe(
         tap(() => {
+          this.tabService.maintainIntegrity('scenarioId', data.id)
+
           this._refetch$.next(true);
           this._error$.next('');
         }),
