@@ -1,0 +1,17 @@
+<form class="w-full px-8 py-5 space-y-4" [formGroup]="form" (ngSubmit)="submit()">
+    <div class="text-xl">{{ data.title }}</div>
+    <div class="py-4">
+      <mat-form-field class="w-full dense-1" appearance="outline" subscriptSizing="dynamic">
+        <mat-label>Название</mat-label>
+        <input
+          matInput
+          placeholder="Введите название"
+          formControlName="name"
+        />
+      </mat-form-field>
+    </div>
+    <div class="flex justify-end items-center gap-2">
+        <button mat-button mat-dialog-close *ngIf="data.NO">{{ data.NO }}</button>
+        <button type="submit" mat-raised-button color="primary" *ngIf="data.YES">{{data.YES}}</button>
+      </div>
+  </form>

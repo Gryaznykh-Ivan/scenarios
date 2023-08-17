@@ -44,6 +44,7 @@ export class DragableDirective implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.destroy$.next();
+    this.destroy$.complete()
   }
 
   ngAfterViewInit() {

@@ -1,11 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { IFile, IFolder } from 'src/app/models/filesystem.model';
-import { CreateFileComponent } from '../../popups/create-file/create-file.component';
-import { CreateFolderComponent } from '../../popups/create-folder/create-folder.component';
-import { RenameFileComponent } from '../../popups/rename-file/rename-file.component';
-import { RenameFolderComponent } from '../../popups/rename-folder/rename-folder.component';
 import { RemoveFolderComponent } from '../../popups/remove-folder/remove-folder.component';
+import { ConfirmWithNameComponent } from '../../popups/confirm-with-name/confirm-with-name.component';
+import { FilesystemService } from 'src/app/services/filesystem.service';
 
 @Component({
     selector: 'app-folder',
@@ -23,7 +21,8 @@ export class FolderComponent implements OnInit {
     @Input() isMainFolder = false
 
     constructor(
-        private dialog: MatDialog
+        private dialog: MatDialog,
+        private filesystemService: FilesystemService
     ) { }
 
     ngOnInit() { }
@@ -33,26 +32,57 @@ export class FolderComponent implements OnInit {
     }
 
     createFile() {
-        this.dialog.open(CreateFileComponent, {
+        const dialogRef = this.dialog.open(ConfirmWithNameComponent, {
             width: "100%",
             maxWidth: "500px",
-            data: { parentFolderId: this.id }
+            data: {
+                title: "Введите название файла",
+                YES: "Создать",
+                NO: "Отмена"
+            }
+        })
+
+        dialogRef.afterClosed().subscribe(result => {
+            if (!result) return
+
+            this.filesystemService.createFile({ parentFolderId: this.id, name: result.name }).subscribe()
         })
     }
 
     createFolder() {
-        this.dialog.open(CreateFolderComponent, {
+        const dialogRef = this.dialog.open(ConfirmWithNameComponent, {
             width: "100%",
             maxWidth: "500px",
-            data: { parentFolderId: this.id }
+            data: {
+                title: "Введите название папки",
+                YES: "Создать",
+                NO: "Отмена"
+            }
+        })
+
+        dialogRef.afterClosed().subscribe(result => {
+            if (!result) return
+
+            this.filesystemService.createFolder({ parentFolderId: this.id, name: result.name }).subscribe()
         })
     }
 
     renameFolder() {
-        this.dialog.open(RenameFolderComponent, {
+        const dialogRef = this.dialog.open(ConfirmWithNameComponent, {
             width: "100%",
             maxWidth: "500px",
-            data: { id: this.id, name: this.name }
+            data: {
+                title: "Введите название папки",
+                name: this.name,
+                YES: "Сохранить",
+                NO: "Отмена"
+            }
+        })
+
+        dialogRef.afterClosed().subscribe(result => {
+            if (!result) return
+
+            this.filesystemService.renameFolder({ id: this.id, name: result.name }).subscribe()
         })
     }
 

@@ -6,7 +6,7 @@ import { IToolbar } from '../models/toolbar.model';
   providedIn: 'root',
 })
 export class ToolbarService {
-  toolbar$ = new BehaviorSubject<IToolbar>({
+  private _toolbar$ = new BehaviorSubject<IToolbar>({
     scenarios: true,
     actions: false,
     properties: true,
@@ -15,13 +15,17 @@ export class ToolbarService {
 
   constructor() {}
 
+  get toolbar$() {
+    return this._toolbar$.asObservable()
+  }
+
   toggle(key: keyof IToolbar) {
-    const toolbar = this.toolbar$.getValue()
+    const toolbar = this._toolbar$.getValue()
 
     if (key === "scenarios" || key === "actions") {
-      return this.toolbar$.next({ ...toolbar, scenarios: false, actions: false, [key]: !toolbar[key] })
+      return this._toolbar$.next({ ...toolbar, scenarios: false, actions: false, [key]: !toolbar[key] })
     }
 
-    this.toolbar$.next({ ...toolbar, [key]: !toolbar[key] })
+    this._toolbar$.next({ ...toolbar, [key]: !toolbar[key] })
   }
 }

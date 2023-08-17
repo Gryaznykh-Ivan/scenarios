@@ -1,9 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { RenameFileComponent } from '../../popups/rename-file/rename-file.component';
 import { ConfirmComponent } from '../../popups/confirm/confirm.component';
 import { FilesystemService } from 'src/app/services/filesystem.service';
 import { IFile } from 'src/app/models/filesystem.model';
+import { ConfirmWithNameComponent } from '../../popups/confirm-with-name/confirm-with-name.component';
+import { IConfirmWithName, IConfirmWithNameResult } from 'src/app/models/confirm.model';
 
 @Component({
     selector: 'app-file',
@@ -24,10 +25,21 @@ export class FileComponent implements OnInit {
     }
 
     renameFile() {
-        this.dialog.open(RenameFileComponent, {
+        const dialogRef = this.dialog.open(ConfirmWithNameComponent, {
             width: "100%",
             maxWidth: "500px",
-            data: { id: this.id, name: this.name }
+            data: {
+                title: "Введите название файла",
+                name: this.name,
+                YES: "Сохранить",
+                NO: "Отмена"
+            }
+        })
+
+        dialogRef.afterClosed().subscribe(result => {
+            if (!result) return
+
+            this.filesystemService.renameFile({ id: this.id, name: result.name }).subscribe()
         })
     }
 

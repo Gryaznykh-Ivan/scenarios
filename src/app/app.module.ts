@@ -3,13 +3,11 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { FilesystemFormComponent } from './components/filesystem/filesystem-form/filesystem-form.component';
+import { FilesystemFormComponent } from './components/forms/filesystem-form/filesystem-form.component';
 import { FileComponent } from './components/filesystem/file/file.component';
 import { FolderComponent } from './components/filesystem/folder/folder.component';
 import { NotFoundPageComponent } from './pages/not-found/not-found-page.component';
 import { ScenarioPageComponent } from './pages/scenario-page/scenario-page.component';
-import { CreateFileComponent } from './components/popups/create-file/create-file.component';
-import { CreateFolderComponent } from './components/popups/create-folder/create-folder.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -23,8 +21,6 @@ import { MatRippleModule } from '@angular/material/core';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { RenameFileComponent } from './components/popups/rename-file/rename-file.component';
-import { RenameFolderComponent } from './components/popups/rename-folder/rename-folder.component';
 import { ConfirmComponent } from './components/popups/confirm/confirm.component';
 import { RemoveFolderComponent } from './components/popups/remove-folder/remove-folder.component';
 import {
@@ -40,6 +36,8 @@ import { SidebarsComponent } from './components/sidebars/sidebars.component';
 import { DragableDirective } from './directives/draggable.directive';
 import { LetDirective } from './directives/let.directive';
 import { ScenariosComponent } from './components/scenarios/scenarios.component';
+import { ConfirmWithNameComponent } from './components/popups/confirm-with-name/confirm-with-name.component';
+import { SearchFilterPipe } from './pipes/search-filter.pipe';
 
 @NgModule({
   declarations: [
@@ -49,10 +47,6 @@ import { ScenariosComponent } from './components/scenarios/scenarios.component';
     FilesystemFormComponent,
     FolderComponent,
     FileComponent,
-    CreateFileComponent,
-    CreateFolderComponent,
-    RenameFileComponent,
-    RenameFolderComponent,
     ConfirmComponent,
     RemoveFolderComponent,
     TabsComponent,
@@ -61,6 +55,8 @@ import { ScenariosComponent } from './components/scenarios/scenarios.component';
     DragableDirective,
     LetDirective,
     ScenariosComponent,
+    ConfirmWithNameComponent,
+    SearchFilterPipe,
   ],
   imports: [
     BrowserModule,

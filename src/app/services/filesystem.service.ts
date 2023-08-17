@@ -34,7 +34,7 @@ import {
 
 @Injectable({ providedIn: 'root' })
 export class FilesystemService {
-  _refetch$ = new BehaviorSubject<boolean>(false);
+  _refetch$ = new BehaviorSubject<boolean>(true);
   _loading$ = new BehaviorSubject<boolean>(false);
   _error$ = new BehaviorSubject<string>('');
 

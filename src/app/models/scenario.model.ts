@@ -9,7 +9,6 @@ export interface IScenario {
 
 export type ICreateScenarioResponse = number
 export interface ICreateScenarioRequest {
-    modelId: number;
     name: string;
     description: string;
 }
