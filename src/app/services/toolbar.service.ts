@@ -10,7 +10,7 @@ export class ToolbarService {
     scenarios: true,
     actions: false,
     properties: true,
-    console: true,
+    console: false,
   });
 
   constructor() {}

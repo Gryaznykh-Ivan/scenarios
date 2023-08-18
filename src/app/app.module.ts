@@ -34,7 +34,7 @@ import { ConfirmWithNameComponent } from './components/popups/confirm-with-name/
 import { SearchFilterPipe } from './pipes/search-filter.pipe';
 import { ConfirmWithCheckboxComponent } from './components/popups/confirm-with-checkbox/confirm-with-checkbox.component';
 import { ActionsComponent } from './components/actions/actions.component';
-import {MatExpansionModule} from '@angular/material/expansion';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { EditorComponent } from './components/editor/editor.component';
 
 @NgModule({
@@ -55,8 +55,7 @@ import { EditorComponent } from './components/editor/editor.component';
     ConfirmWithNameComponent,
     SearchFilterPipe,
     ConfirmWithCheckboxComponent,
-    ActionsComponent,
-    EditorComponent,
+    ActionsComponent
   ],
   imports: [
     BrowserModule,
@@ -79,6 +78,7 @@ import { EditorComponent } from './components/editor/editor.component';
     MatTooltipModule,
     MatCheckboxModule,
     MatExpansionModule,
+    EditorComponent
   ],
   providers: [],
   bootstrap: [AppComponent],
