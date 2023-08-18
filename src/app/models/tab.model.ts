@@ -3,5 +3,5 @@ export interface ITab {
     isActive: boolean;
     fileId?: number;
     scenarioId?: number;
-    objectId?: number;
+    nodeId?: number;
 }

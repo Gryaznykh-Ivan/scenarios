@@ -69,7 +69,6 @@ export class ScenariosComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      if (!result) return;
       if (result !== true) return;
 
       this.scenarioService.removeScenario({ id }).subscribe();
@@ -77,6 +76,6 @@ export class ScenariosComponent implements OnInit {
   }
 
   selectScenario(id: number) {
-    this.tabService.updateActiveTab({ scenarioId: id })
+    this.scenarioService.selectScenario(id)
   }
 }

@@ -105,13 +105,15 @@ export class FolderComponent implements OnInit {
                 title: 'Вы уверены?',
                 message: 'Папка будет удалена?',
                 checkedLabel: 'Удалить вложенные папки и файлы',
-                checked: false,
+                checked: true,
                 YES: 'Удалить',
                 NO: 'Отмена',
               },
             })
             .afterClosed()
             .subscribe((result) => {
+              if (!result) return;
+
               if (result.checked === true) {
                 this.filesystemService
                   .removeFolder({ id: this.id, cascade: true })

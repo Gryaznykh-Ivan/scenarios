@@ -40,9 +40,15 @@ export class ScenarioService {
   constructor(private http: HttpClient, private tabService: TabService) {
     this.tabService.tabs$.pipe(takeUntilDestroyed()).subscribe((tabs) => {
       const activeTab = tabs.find((c) => c.isActive === true);
-      
+
       if (activeTab === undefined) return;
-      if (this._activeTab?.fileId === activeTab.fileId) return
+      if (
+        this._activeTab?.fileId === activeTab.fileId &&
+        this._activeTab?.nodeId === activeTab.nodeId &&
+        this._activeTab?.scenarioId === activeTab.scenarioId
+      ) {
+        return;
+      }
 
       this._activeTab = activeTab;
 
@@ -65,7 +71,8 @@ export class ScenarioService {
   }
 
   getScenarios(): Observable<IScenario[]> {
-    if (this._activeTab?.fileId === undefined) return throwError(() => 'fileId не найден');
+    if (this._activeTab?.fileId === undefined)
+      return throwError(() => 'fileId не найден');
 
     setTimeout(() => this._loading$.next(true), 0);
 
@@ -78,7 +85,17 @@ export class ScenarioService {
         }),
       })
       .pipe(
-        tap(() => this._error$.next('')),
+        tap((next) => {
+          this._error$.next('');
+
+          const firstScenarioId = next[0]?.id;
+
+          if (firstScenarioId === undefined) return;
+          if (this._activeTab?.scenarioId !== undefined) return;
+          if (this._activeTab?.scenarioId === firstScenarioId) return;
+
+          this.tabService.updateActiveTab({ scenarioId: firstScenarioId });
+        }),
         finalize(() => this._loading$.next(false)),
         catchError(this.errorHandler.bind(this))
       );
@@ -87,7 +104,8 @@ export class ScenarioService {
   createScenario(
     data: ICreateScenarioRequest
   ): Observable<ICreateScenarioResponse> {
-    if (this._activeTab?.fileId === undefined) return throwError(() => 'fileId не найден');
+    if (this._activeTab?.fileId === undefined)
+      return throwError(() => 'fileId не найден');
 
     setTimeout(() => this._loading$.next(true), 0);
 
@@ -119,7 +137,8 @@ export class ScenarioService {
   removeScenario(
     data: IRemoveScenarioRequest
   ): Observable<IRemoveScenarioResponse> {
-    if (this._activeTab?.fileId === undefined) return throwError(() => 'fileId не найден');
+    if (this._activeTab?.fileId === undefined)
+      return throwError(() => 'fileId не найден');
 
     setTimeout(() => this._loading$.next(true), 0);
 
@@ -133,7 +152,7 @@ export class ScenarioService {
       })
       .pipe(
         tap(() => {
-          this.tabService.maintainIntegrity('scenarioId', data.id)
+          this.tabService.maintainIntegrity('scenarioId', data.id);
 
           this._refetch$.next(true);
           this._error$.next('');
@@ -141,6 +160,10 @@ export class ScenarioService {
         finalize(() => this._loading$.next(false)),
         catchError(this.errorHandler.bind(this))
       );
+  }
+
+  selectScenario(id: number) {
+    this.tabService.updateActiveTab({ scenarioId: id });
   }
 
   private errorHandler(error: HttpErrorResponse) {

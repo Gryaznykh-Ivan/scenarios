@@ -25,9 +25,9 @@
       <ng-container *ngIf="toolbar.scenarios">
         <app-scenarios></app-scenarios>
       </ng-container>
-      <div *ngIf="toolbar.actions">
-        <div class="text-lg font-medium mb-3">Действия</div>
-      </div>
+      <ng-container *ngIf="toolbar.actions">
+        <app-actions></app-actions>
+      </ng-container>
     </div>
   </div>
   <div class="flex-1">

@@ -1,0 +1,22 @@
+import { Component, OnInit } from '@angular/core';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { Observable } from 'rxjs';
+import { IActionGroup } from 'src/app/models/action.model';
+import { ActionService } from 'src/app/services/action.service';
+
+@Component({
+  selector: 'app-actions',
+  templateUrl: './actions.component.html',
+  styleUrls: ['./actions.component.scss'],
+})
+export class ActionsComponent implements OnInit {
+  actionGroups$: Observable<IActionGroup[]>;
+
+  constructor(
+    public actionService: ActionService,
+  ) {}
+
+  ngOnInit() {
+    this.actionGroups$ = this.actionService.getGroupedActions();
+  }
+}

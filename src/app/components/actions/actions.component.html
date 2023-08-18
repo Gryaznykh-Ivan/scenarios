@@ -1,0 +1,28 @@
+<div class="relative h-full">
+  <div class="absolute inset-0 overflow-y-auto border-[1px] rounded-md">
+    <mat-accordion displayMode="flat" multi>
+      <mat-expansion-panel
+        *ngFor="let actionGroup of actionGroups$ | async"
+        expanded
+      >
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            {{ actionGroup.name }}
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="flex flex-wrap gap-2">
+          <div
+            class="max-w-[50px]"
+            *ngFor="let action of actionGroup.actionList"
+          >
+            <div
+              class=""
+              [innerHTML]="actionService.createActionPreview(action)"
+            ></div>
+            <div class="text-center text-sm mt-1">{{ action.label }}</div>
+          </div>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+</div>
