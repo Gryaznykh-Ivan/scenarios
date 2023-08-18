@@ -5,7 +5,7 @@ import { CoreShapeComponent, StageComponent } from 'ng2-konva';
   standalone: true,
   selector: 'app-editor',
   templateUrl: './editor.component.html',
-  imports: [StageComponent, CoreShapeComponent],
+  imports: [StageComponent, CoreShapeComponent]
 })
 export class EditorComponent {
 

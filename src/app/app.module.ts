@@ -77,8 +77,7 @@ import { EditorComponent } from './components/editor/editor.component';
     MatRippleModule,
     MatTooltipModule,
     MatCheckboxModule,
-    MatExpansionModule,
-    EditorComponent
+    MatExpansionModule
   ],
   providers: [],
   bootstrap: [AppComponent],
