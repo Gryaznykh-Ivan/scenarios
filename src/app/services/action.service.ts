@@ -4,7 +4,7 @@ import {
   HttpParams,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, catchError, finalize, tap, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, delay, finalize, of, switchMap, tap, throwError } from 'rxjs';
 import { IAction, IActionGroup } from '../models/action.model';
 import { environment } from 'src/environments/environment';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -13,18 +13,24 @@ import { DomSanitizer } from '@angular/platform-browser';
   providedIn: 'root',
 })
 export class ActionService {
-  _loading$ = new BehaviorSubject<boolean>(true);
   _refetch$ = new BehaviorSubject<boolean>(true);
   _error$ = new BehaviorSubject<string>('');
+
+  private _loading$ = new BehaviorSubject<boolean>(false);
+  public loading$: Observable<boolean> = this._loading$.asObservable().pipe(
+    switchMap((loading) => {
+      if (loading === false) {
+        return of(false);
+      }
+
+      return of(true).pipe(delay(500));
+    })
+  );
 
   constructor(private http: HttpClient, private sanitizer: DomSanitizer) {}
 
   get refetch$() {
     return this._refetch$.asObservable();
-  }
-
-  get loading$() {
-    return this._loading$.asObservable();
   }
 
   get error$() {

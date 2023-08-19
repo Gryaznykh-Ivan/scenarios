@@ -4,7 +4,10 @@ import {
   Observable,
   Subject,
   catchError,
+  delay,
   finalize,
+  of,
+  switchMap,
   tap,
   throwError,
 } from 'rxjs';
@@ -30,10 +33,20 @@ import { ITab } from '../models/tab.model';
   providedIn: 'root',
 })
 export class ScenarioService {
-  private _loading$ = new BehaviorSubject<boolean>(false);
   private _refetch$ = new BehaviorSubject<boolean>(true);
   private _error$ = new BehaviorSubject<string>('');
   private _activeTab?: ITab;
+  
+  private _loading$ = new BehaviorSubject<boolean>(false);
+  public loading$: Observable<boolean> = this._loading$.asObservable().pipe(
+    switchMap((loading) => {
+      if (loading === false) {
+        return of(false);
+      }
+
+      return of(true).pipe(delay(500));
+    })
+  );
 
   constructor(private http: HttpClient, private tabService: TabService) {
     this.tabService.tabs$.pipe(takeUntilDestroyed()).subscribe((tabs) => {
@@ -62,10 +75,6 @@ export class ScenarioService {
 
   get refetch$() {
     return this._refetch$.asObservable();
-  }
-
-  get loading$() {
-    return this._loading$.asObservable();
   }
 
   get error$() {

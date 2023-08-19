@@ -40,18 +40,24 @@ import {
 
 @Injectable({ providedIn: 'root' })
 export class FilesystemService {
-  _loading$ = new BehaviorSubject<boolean>(true);
   _refetch$ = new BehaviorSubject<boolean>(true);
   _error$ = new BehaviorSubject<string>('');
+
+  private _loading$ = new BehaviorSubject<boolean>(false);
+  public loading$: Observable<boolean> = this._loading$.asObservable().pipe(
+    switchMap((loading) => {
+      if (loading === false) {
+        return of(false);
+      }
+
+      return of(true).pipe(delay(500));
+    })
+  );
 
   constructor(private http: HttpClient) {}
 
   get refetch$() {
     return this._refetch$.asObservable();
-  }
-
-  get loading$() {
-    return this._loading$.asObservable();
   }
 
   get error$() {

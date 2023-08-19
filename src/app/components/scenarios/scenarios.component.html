@@ -10,7 +10,6 @@
       <div
         *ngIf="scenarioService.loading$ | async"
         class="flex items-center justify-center py-4"
-        #loading
       >
         <svg
           class="animate-spin"
@@ -37,9 +36,9 @@
         "
         class="group w-full flex items-center justify-between h-10 px-2 rounded-md cursor-pointer"
         [ngClass]="{
-          'bg-primary text-white stroke-white': scenario.id === tabService.activeTab?.scenarioId,
-          'bg-white text-black stroke-black hover:bg-black/5': scenario.id !== tabService.activeTab?.scenarioId,
-        }"
+            'bg-primary text-white stroke-white': scenario.id === tabService.activeTab?.scenarioId,
+            'bg-white text-black stroke-black hover:bg-black/5': scenario.id !== tabService.activeTab?.scenarioId,
+          }"
         (click)="selectScenario(scenario.id)"
       >
         <div
