@@ -4,11 +4,9 @@ import {
   Observable,
   Subject,
   catchError,
-  debounceTime,
   finalize,
   tap,
   throwError,
-  timeout,
 } from 'rxjs';
 import {
   ICreateScenarioRequest,
@@ -40,19 +38,23 @@ export class ScenarioService {
   constructor(private http: HttpClient, private tabService: TabService) {
     this.tabService.tabs$.pipe(takeUntilDestroyed()).subscribe((tabs) => {
       const activeTab = tabs.find((c) => c.isActive === true);
+      const currentActiveTab = this._activeTab;
 
       if (activeTab === undefined) return;
       if (
-        this._activeTab?.fileId === activeTab.fileId &&
-        this._activeTab?.nodeId === activeTab.nodeId &&
-        this._activeTab?.scenarioId === activeTab.scenarioId
+        currentActiveTab?.fileId === activeTab.fileId &&
+        currentActiveTab?.nodeId === activeTab.nodeId &&
+        currentActiveTab?.scenarioId === activeTab.scenarioId
       ) {
         return;
       }
 
       this._activeTab = activeTab;
 
-      if (typeof this._activeTab?.fileId === 'number') {
+      if (
+        typeof activeTab.fileId === 'number' &&
+        activeTab.fileId !== currentActiveTab?.fileId
+      ) {
         this._refetch$.next(false);
       }
     });

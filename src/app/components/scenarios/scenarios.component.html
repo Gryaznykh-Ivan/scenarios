@@ -10,6 +10,7 @@
       <div
         *ngIf="scenarioService.loading$ | async"
         class="flex items-center justify-center py-4"
+        #loading
       >
         <svg
           class="animate-spin"
