@@ -65,7 +65,7 @@ export class FilesystemService {
   }
 
   getFolder(data: Pick<IFolder, 'id'>): Observable<IFolder> {
-    setTimeout(() => this._loading$.next(true), 0);
+    this._loading$.next(true);
 
     return this.http
       .get<IFolder>(`${environment.BASE_URL}/folder`, {
@@ -99,7 +99,7 @@ export class FilesystemService {
   }
 
   createFolder(data: ICreateFolderRequest): Observable<ICreateFolderResponse> {
-    setTimeout(() => this._loading$.next(true), 0);
+    this._loading$.next(true);
 
     return this.http
       .post<ICreateFolderResponse>(
@@ -126,7 +126,7 @@ export class FilesystemService {
   }
 
   createFile(data: ICreateFileRequest): Observable<ICreateFileResponse> {
-    setTimeout(() => this._loading$.next(true), 0);
+    this._loading$.next(true);
 
     return this.http
       .post<ICreateFileResponse>(
@@ -153,7 +153,7 @@ export class FilesystemService {
   }
 
   removeFile(data: IRemoveFileRequest): Observable<IRemoveFileResponse> {
-    setTimeout(() => this._loading$.next(true), 0);
+    this._loading$.next(true);
 
     return this.http
       .delete<IRemoveFileResponse>(`${environment.BASE_URL}/file`, {
@@ -174,7 +174,7 @@ export class FilesystemService {
   }
 
   removeFolder(data: IRemoveFolderRequest): Observable<IRemoveFolderResponse> {
-    setTimeout(() => this._loading$.next(true), 0);
+    this._loading$.next(true);
 
     return this.http
       .delete<IRemoveFolderResponse>(`${environment.BASE_URL}/folder`, {
@@ -196,7 +196,7 @@ export class FilesystemService {
   }
 
   renameFolder(data: IRenameFolderRequest): Observable<IRenameFolderResponse> {
-    setTimeout(() => this._loading$.next(true), 0);
+    this._loading$.next(true);
 
     return this.http
       .patch<IRenameFolderResponse>(
@@ -223,7 +223,7 @@ export class FilesystemService {
   }
 
   renameFile(data: IRenameFileRequest): Observable<IRenameFileResponse> {
-    setTimeout(() => this._loading$.next(true), 0);
+    this._loading$.next(true);
 
     return this.http
       .patch<IRenameFileResponse>(

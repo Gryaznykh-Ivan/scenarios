@@ -38,7 +38,7 @@ export class ActionService {
   }
 
   getActions() {
-    setTimeout(() => this._loading$.next(true), 0);
+    this._loading$.next(true);
 
     return this.http.get<IAction[]>(`${environment.BASE_URL}/action`).pipe(
       tap(() => this._error$.next('')),
@@ -48,7 +48,7 @@ export class ActionService {
   }
 
   getGroupedActions() {
-    setTimeout(() => this._loading$.next(true), 0);
+    this._loading$.next(true);
 
     return this.http
       .get<IActionGroup[]>(`${environment.BASE_URL}/action/group`)

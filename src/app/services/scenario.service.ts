@@ -36,7 +36,7 @@ export class ScenarioService {
   private _refetch$ = new BehaviorSubject<boolean>(true);
   private _error$ = new BehaviorSubject<string>('');
   private _activeTab?: ITab;
-  
+
   private _loading$ = new BehaviorSubject<boolean>(false);
   public loading$: Observable<boolean> = this._loading$.asObservable().pipe(
     switchMap((loading) => {
@@ -82,10 +82,11 @@ export class ScenarioService {
   }
 
   getScenarios(): Observable<IScenario[]> {
-    if (this._activeTab?.fileId === undefined)
+    if (this._activeTab?.fileId === undefined) {
       return throwError(() => 'fileId не найден');
+    }
 
-    setTimeout(() => this._loading$.next(true), 0);
+    this._loading$.next(true);
 
     return this.http
       .get<IScenario[]>(`${environment.BASE_URL}/file/scenarios`, {
@@ -115,10 +116,11 @@ export class ScenarioService {
   createScenario(
     data: ICreateScenarioRequest
   ): Observable<ICreateScenarioResponse> {
-    if (this._activeTab?.fileId === undefined)
+    if (this._activeTab?.fileId === undefined) {
       return throwError(() => 'fileId не найден');
+    }
 
-    setTimeout(() => this._loading$.next(true), 0);
+    this._loading$.next(true);
 
     return this.http
       .post<ICreateScenarioResponse>(
@@ -148,10 +150,11 @@ export class ScenarioService {
   removeScenario(
     data: IRemoveScenarioRequest
   ): Observable<IRemoveScenarioResponse> {
-    if (this._activeTab?.fileId === undefined)
+    if (this._activeTab?.fileId === undefined) {
       return throwError(() => 'fileId не найден');
+    }
 
-    setTimeout(() => this._loading$.next(true), 0);
+    this._loading$.next(true);
 
     return this.http
       .delete<IRemoveScenarioResponse>(`${environment.BASE_URL}/scenario`, {
@@ -164,7 +167,7 @@ export class ScenarioService {
       .pipe(
         tap(() => {
           this.tabService.maintainIntegrity('scenarioId', data.id);
-
+          
           this._refetch$.next(true);
           this._error$.next('');
         }),

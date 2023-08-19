@@ -23,7 +23,7 @@
         class="absolute right-0 top-0 h-full w-1.5 hover:bg-black/10 cursor-ew-resize"
       ></div>
       <ng-container *ngIf="toolbar.scenarios">
-        <app-scenarios></app-scenarios>
+        <app-scenarios [activeScenarioId]="tabService.activeTab?.scenarioId"></app-scenarios>
       </ng-container>
       <ng-container *ngIf="toolbar.actions">
         <app-actions></app-actions>

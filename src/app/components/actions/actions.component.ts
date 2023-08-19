@@ -1,3 +1,4 @@
+import { ChangeDetectionStrategy } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Observable } from 'rxjs';
@@ -8,6 +9,7 @@ import { ActionService } from 'src/app/services/action.service';
   selector: 'app-actions',
   templateUrl: './actions.component.html',
   styleUrls: ['./actions.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ActionsComponent implements OnInit {
   actionGroups$: Observable<IActionGroup[]>;

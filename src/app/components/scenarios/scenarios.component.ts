@@ -1,4 +1,4 @@
-import { Component, DestroyRef, Input, OnDestroy, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, DestroyRef, Input, OnDestroy, OnInit, inject } from '@angular/core';
 import { Observable, Subject, switchMap, takeUntil } from 'rxjs';
 import { ScenarioService } from 'src/app/services/scenario.service';
 import { IScenario } from 'src/app/models/scenario.model';
@@ -10,16 +10,18 @@ import { ConfirmComponent } from '../popups/confirm/confirm.component';
 @Component({
   selector: 'app-scenarios',
   templateUrl: './scenarios.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ScenariosComponent implements OnInit {
+  @Input() activeScenarioId?: number;
+
+  fileSearch: string = '';
   scenarios$: Observable<IScenario[]>;
 
-  fileSearch = '';
-
   constructor(
-    public tabService: TabService,
     public scenarioService: ScenarioService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private cd: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
