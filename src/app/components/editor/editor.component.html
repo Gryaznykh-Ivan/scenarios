@@ -1,7 +1,11 @@
-<ko-stage class="absolute inset-0" [config]="stage">
-  <ko-layer>
-    <ko-circle
-      [config]="circle"
-    ></ko-circle>
+<ko-stage
+  *ngIf="scenario$ | async"
+  class="absolute inset-0"
+  [config]="stageConfig"
+  (wheel)="onWheel($event)"
+  #stage
+>
+  <ko-layer #layer>
+    <ko-circle [config]="circleConfig"></ko-circle>
   </ko-layer>
 </ko-stage>

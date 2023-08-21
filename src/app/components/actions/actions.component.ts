@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Observable } from 'rxjs';
-import { IActionGroup } from 'src/app/models/action.model';
+import { IAction, IActionGroup } from 'src/app/models/action.model';
 import { ActionService } from 'src/app/services/action.service';
 
 @Component({
@@ -20,5 +20,9 @@ export class ActionsComponent implements OnInit {
 
   ngOnInit() {
     this.actionGroups$ = this.actionService.getGroupedActions();
+  }
+
+  onDragStart(event: DragEvent, action: IAction) {
+    event.dataTransfer?.setData('action', JSON.stringify(action))
   }
 }

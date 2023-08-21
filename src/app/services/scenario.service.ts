@@ -16,7 +16,7 @@ import {
   ICreateScenarioResponse,
   IRemoveScenarioRequest,
   IRemoveScenarioResponse,
-  IScenario,
+  IScenarioPreview,
 } from '../models/scenario.model';
 import {
   HttpClient,
@@ -81,7 +81,7 @@ export class ScenarioService {
     return this._error$.asObservable();
   }
 
-  getScenarios(): Observable<IScenario[]> {
+  getScenarios(): Observable<IScenarioPreview[]> {
     if (this._activeTab?.fileId === undefined) {
       return throwError(() => 'fileId не найден');
     }
@@ -89,7 +89,7 @@ export class ScenarioService {
     this._loading$.next(true);
 
     return this.http
-      .get<IScenario[]>(`${environment.BASE_URL}/file/scenarios`, {
+      .get<IScenarioPreview[]>(`${environment.BASE_URL}/file/scenarios`, {
         params: new HttpParams({
           fromObject: {
             id: this._activeTab.fileId,

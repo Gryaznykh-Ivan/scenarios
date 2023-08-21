@@ -13,8 +13,8 @@ import { DomSanitizer } from '@angular/platform-browser';
   providedIn: 'root',
 })
 export class ActionService {
-  _refetch$ = new BehaviorSubject<boolean>(true);
-  _error$ = new BehaviorSubject<string>('');
+  private _refetch$ = new BehaviorSubject<boolean>(true);
+  private _error$ = new BehaviorSubject<string>('');
 
   private _loading$ = new BehaviorSubject<boolean>(false);
   public loading$: Observable<boolean> = this._loading$.asObservable().pipe(

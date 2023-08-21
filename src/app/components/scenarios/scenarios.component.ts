@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, DestroyRef, Input, OnDestroy, OnInit, inject } from '@angular/core';
 import { Observable, Subject, switchMap, takeUntil } from 'rxjs';
 import { ScenarioService } from 'src/app/services/scenario.service';
-import { IScenario } from 'src/app/models/scenario.model';
+import { IScenarioPreview } from 'src/app/models/scenario.model';
 import { TabService } from 'src/app/services/tab.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmWithNameComponent } from '../popups/confirm-with-name/confirm-with-name.component';
@@ -16,7 +16,7 @@ export class ScenariosComponent implements OnInit {
   @Input() activeScenarioId?: number;
 
   fileSearch: string = '';
-  scenarios$: Observable<IScenario[]>;
+  scenarios$: Observable<IScenarioPreview[]>;
 
   constructor(
     public scenarioService: ScenarioService,

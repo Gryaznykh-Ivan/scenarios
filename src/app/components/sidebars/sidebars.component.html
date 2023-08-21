@@ -1,9 +1,10 @@
 <div
   *ngIf="toolbarService.toolbar$ | async as toolbar"
   class="relative h-full box-border flex justify-center overflow-hidden"
+  id="editor-container"
 >
   <div
-    class="bg-white border-r-[1px] border-gray-200 transition-all overflow-hidden"
+    class="bg-white border-r-[1px] border-gray-200 transition-all overflow-hidden z-10"
     [ngStyle]="{
       width:
         toolbar.scenarios !== false || toolbar.actions !== false
@@ -23,7 +24,9 @@
         class="absolute right-0 top-0 h-full w-1.5 hover:bg-black/10 cursor-ew-resize"
       ></div>
       <ng-container *ngIf="toolbar.scenarios">
-        <app-scenarios [activeScenarioId]="tabService.activeTab?.scenarioId"></app-scenarios>
+        <app-scenarios
+          [activeScenarioId]="tabService.activeTab?.scenarioId"
+        ></app-scenarios>
       </ng-container>
       <ng-container *ngIf="toolbar.actions">
         <app-actions></app-actions>
@@ -32,7 +35,7 @@
   </div>
   <div class="flex-1">
     <div class="flex flex-col h-full">
-      <div id="editor-container" class="relative flex-1">
+      <div class="flex-1">
         <ng-content></ng-content>
       </div>
       <div
@@ -46,6 +49,7 @@
         }"
         draggable
         dragHandle="#dragConsoleHandle"
+        (onDragStart)="onSidebarDragStart()"
         (onDragMove)="onBottomSidebarDragMove($event)"
         (onDragEnd)="onBottomSidebarDragEnd()"
       >
@@ -66,7 +70,7 @@
     </div>
   </div>
   <div
-    class="bg-white border-l-[1px] border-gray-200 transition-all overflow-hidden"
+    class="bg-white border-l-[1px] border-gray-200 transition-all overflow-hidden z-10"
     [ngStyle]="{
       width:
         toolbar.properties === true

@@ -1,5 +1,4 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { IScenario } from '../models/scenario.model';
 
 @Pipe({
   name: 'searchFilter',
