@@ -1,15 +1,15 @@
-<mat-toolbar class="relative z-10 h-12 border-b-[1px]" color="primary" *ngIf="toolbarService.toolbar$ | async as toolbar">
+<mat-toolbar class="relative z-10 h-12 border-b-[1px]" color="primary">
   <div class="flex gap-2 items-center">
     <div class="relative">
       <span
-        *ngIf="toolbar.scenarios"
+        *ngIf="tabService.activeTab?.toolbar?.scenarios"
         class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"
       ></span>
       <button
         mat-ripple
         matTooltip="Сценарии"
         class="stroke-white p-2 rounded-full flex justify-center items-center"
-        (click)="toolbarService.toggle('scenarios')"
+        (click)="tabService.toolbarToggle('scenarios')"
       >
         <svg
           width="24"
@@ -30,14 +30,14 @@
     </div>
     <div class="relative">
       <span
-      *ngIf="toolbar.actions"
+      *ngIf="tabService.activeTab?.toolbar?.actions"
         class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"
       ></span>
       <button
         mat-ripple
         matTooltip="Действия"
         class="stroke-white rounded-full p-2 flex justify-center items-center"
-        (click)="toolbarService.toggle('actions')"
+        (click)="tabService.toolbarToggle('actions')"
       >
         <svg
           width="24"
@@ -58,14 +58,14 @@
     </div>
     <div class="relative">
       <span
-      *ngIf="toolbar.properties"
+      *ngIf="tabService.activeTab?.toolbar?.properties"
         class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"
       ></span>
       <button
         mat-ripple
         matTooltip="Свойства"
         class="stroke-white rounded-full p-2 flex justify-center items-center"
-        (click)="toolbarService.toggle('properties')"
+        (click)="tabService.toolbarToggle('properties')"
       >
         <svg
           width="24"
@@ -86,14 +86,14 @@
     </div>
     <div class="relative">
       <span
-      *ngIf="toolbar.console"
+      *ngIf="tabService.activeTab?.toolbar?.console"
         class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"
       ></span>
       <button
         mat-ripple
         matTooltip="Консоль"
         class="stroke-white rounded-full p-2 flex justify-center items-center"
-        (click)="toolbarService.toggle('console')"
+        (click)="tabService.toolbarToggle('console')"
       >
         <svg
           width="24"

@@ -6,7 +6,6 @@ import {
 import { Component, Input } from '@angular/core';
 import { IDraggableDelta } from 'src/app/directives/draggable.directive';
 import { TabService } from 'src/app/services/tab.service';
-import { ToolbarService } from 'src/app/services/toolbar.service';
 
 @Component({
   selector: 'app-sidebars',
@@ -22,7 +21,6 @@ export class SidebarsComponent {
   leftSidebarExtraWidth = 0;
 
   constructor(
-    public toolbarService: ToolbarService,
     public tabService: TabService
   ) {}
 

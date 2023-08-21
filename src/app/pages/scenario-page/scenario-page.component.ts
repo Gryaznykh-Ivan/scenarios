@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { TabService } from 'src/app/services/tab.service';
-import { ToolbarService } from 'src/app/services/toolbar.service';
 
 @Component({
   selector: 'scenario-page',

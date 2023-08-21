@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
-import { ToolbarService } from 'src/app/services/toolbar.service';
+import { TabService } from 'src/app/services/tab.service';
 
 @Component({
   selector: 'app-toolbar',
   templateUrl: './toolbar.component.html'
 })
 export class ToolbarComponent {
-  constructor (public toolbarService: ToolbarService) {}
+  constructor (public tabService: TabService) {}
 
   
 }

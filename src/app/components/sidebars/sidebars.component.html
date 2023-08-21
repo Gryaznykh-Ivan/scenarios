@@ -1,5 +1,4 @@
 <div
-  *ngIf="toolbarService.toolbar$ | async as toolbar"
   class="relative h-full box-border flex justify-center overflow-hidden"
   id="editor-container"
 >
@@ -7,7 +6,8 @@
     class="bg-white border-r-[1px] border-gray-200 transition-all overflow-hidden z-10"
     [ngStyle]="{
       width:
-        toolbar.scenarios !== false || toolbar.actions !== false
+        tabService.toolbar?.scenarios !== false ||
+        tabService.toolbar?.actions !== false
           ? leftSidebarWidth + leftSidebarExtraWidth + 'px'
           : '0px',
       transition: isDragging === true ? 'none 0s ease 0s' : ''
@@ -23,12 +23,12 @@
         id="dragLeftSidebarHandle"
         class="absolute right-0 top-0 h-full w-1.5 hover:bg-black/10 cursor-ew-resize"
       ></div>
-      <ng-container *ngIf="toolbar.scenarios">
+      <ng-container *ngIf="tabService.toolbar?.scenarios">
         <app-scenarios
           [activeScenarioId]="tabService.activeTab?.scenarioId"
         ></app-scenarios>
       </ng-container>
-      <ng-container *ngIf="toolbar.actions">
+      <ng-container *ngIf="tabService.toolbar?.actions">
         <app-actions></app-actions>
       </ng-container>
     </div>
@@ -42,7 +42,7 @@
         class="relative border-t-[1px] bg-white border-gray-200 transition-all overflow-hidden"
         [ngStyle]="{
           height:
-            toolbar.console !== false
+            tabService.toolbar?.console !== false
               ? bottomSidebarHeight + bottomSidebarExtraHeight + 'px'
               : '0px',
           transition: isDragging === true ? 'none 0s ease 0s' : ''
@@ -73,7 +73,7 @@
     class="bg-white border-l-[1px] border-gray-200 transition-all overflow-hidden z-10"
     [ngStyle]="{
       width:
-        toolbar.properties === true
+        tabService.toolbar?.properties === true
           ? rightSidebarWidth + rightSidebarExtraWidth + 'px'
           : '0px',
       transition: isDragging === true ? 'none 0s ease 0s' : ''
