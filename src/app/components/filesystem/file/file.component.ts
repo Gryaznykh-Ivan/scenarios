@@ -1,10 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmComponent } from '../../popups/confirm/confirm.component';
-import { FilesystemService } from 'src/app/services/filesystem.service';
 import { IFile } from 'src/app/models/filesystem.model';
 import { ConfirmWithNameComponent } from '../../popups/confirm-with-name/confirm-with-name.component';
 import { IConfirmWithName } from 'src/app/models/confirm.model';
+import { Store } from '@ngrx/store';
+import { removeFileInitiated, renameFileInitiated } from 'src/app/state/filesystem';
 
 @Component({
     selector: 'app-file',
@@ -16,7 +17,7 @@ export class FileComponent implements OnInit {
     @Input() name: string;
     @Input() selectFile: (data: IFile) => void
 
-    constructor(private dialog: MatDialog, private filesystemService: FilesystemService) { }
+    constructor(private dialog: MatDialog, private store: Store) { }
 
     ngOnInit() { }
     
@@ -39,7 +40,7 @@ export class FileComponent implements OnInit {
         dialogRef.afterClosed().subscribe(result => {
             if (!result) return
 
-            this.filesystemService.renameFile({ id: this.id, name: result.name }).subscribe()
+            this.store.dispatch(renameFileInitiated({ id: this.id, name: result.name }))
         })
     }
 
@@ -58,7 +59,7 @@ export class FileComponent implements OnInit {
         dialogRef.afterClosed().subscribe(result => {
             if (result !== true) return
 
-            this.filesystemService.removeFile({ id: this.id }).subscribe()
+            this.store.dispatch(removeFileInitiated({ id: this.id }))
         })
     }
 }

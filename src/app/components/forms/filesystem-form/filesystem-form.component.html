@@ -2,7 +2,7 @@
 <div class="">
   <div class="border-[1px] rounded-md max-h-[400px] overflow-y-auto p-1.5">
     <div
-      *ngIf="filesystemService.loading$ | async"
+      *ngIf="loading$ | async"
       class="flex items-center justify-center py-4"
     >
       <svg
@@ -35,7 +35,7 @@
     </app-folder>
     <div
       class="py-4 space-y-4"
-      *ngIf="filesystemService.error$ | async as message"
+      *ngIf="error$ | async as message"
     >
       <div class="text-center">Не удалось получить данные от сервера</div>
       <div class="flex justify-center items-center">

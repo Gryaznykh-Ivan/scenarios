@@ -12,6 +12,20 @@ export interface IFolder {
     childFolders: IFolder[];
 }
 
+
+
+export type IGetFilesystemResponse = IFolder
+export interface IGetFilesystemRequest {
+    id: number;
+}
+
+export type IIsFolderExistResponse = boolean
+export interface IIsFolderExistRequest {
+    id: number;
+}
+
+
+
 export type ICreateFolderResponse = IFolder
 export interface ICreateFolderRequest {
     parentFolderId: number;

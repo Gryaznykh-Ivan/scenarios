@@ -2,9 +2,18 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { IFile, IFolder } from 'src/app/models/filesystem.model';
 import { ConfirmWithNameComponent } from '../../popups/confirm-with-name/confirm-with-name.component';
-import { FilesystemService } from 'src/app/services/filesystem.service';
 import { ConfirmComponent } from '../../popups/confirm/confirm.component';
 import { ConfirmWithCheckboxComponent } from '../../popups/confirm-with-checkbox/confirm-with-checkbox.component';
+import { Store } from '@ngrx/store';
+import {
+  createFileInitiated,
+  createFolderInitiated,
+  isFolderExistInitiated,
+  removeFolderInitiated,
+  renameFolderInitiated,
+} from 'src/app/state/filesystem';
+import { FilesystemService } from 'src/app/services/filesystem.service';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-folder',
@@ -22,6 +31,7 @@ export class FolderComponent implements OnInit {
 
   constructor(
     private dialog: MatDialog,
+    private store: Store,
     private filesystemService: FilesystemService
   ) {}
 
@@ -45,9 +55,9 @@ export class FolderComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       if (!result) return;
 
-      this.filesystemService
-        .createFile({ parentFolderId: this.id, name: result.name })
-        .subscribe();
+      this.store.dispatch(
+        createFileInitiated({ parentFolderId: this.id, name: result.name })
+      );
     });
   }
 
@@ -65,9 +75,9 @@ export class FolderComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       if (!result) return;
 
-      this.filesystemService
-        .createFolder({ parentFolderId: this.id, name: result.name })
-        .subscribe();
+      this.store.dispatch(
+        createFolderInitiated({ parentFolderId: this.id, name: result.name })
+      );
     });
   }
 
@@ -86,67 +96,61 @@ export class FolderComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       if (!result) return;
 
-      this.filesystemService
-        .renameFolder({ id: this.id, name: result.name })
-        .subscribe();
+      this.store.dispatch(
+        renameFolderInitiated({ id: this.id, name: result.name })
+      );
     });
   }
 
-  removeFolder() {
-    this.filesystemService
-      .isFolderEmpty({ id: this.id })
-      .subscribe((isFolderEmpty) => {
-        if (isFolderEmpty === false) {
-          this.dialog
-            .open(ConfirmWithCheckboxComponent, {
-              width: '100%',
-              maxWidth: '500px',
-              data: {
-                title: 'Вы уверены?',
-                message: 'Папка будет удалена?',
-                checkedLabel: 'Удалить вложенные папки и файлы',
-                checked: true,
-                YES: 'Удалить',
-                NO: 'Отмена',
-              },
-            })
-            .afterClosed()
-            .subscribe((result) => {
-              if (!result) return;
+  async removeFolder() {
+    const isFolderEmpty = await firstValueFrom(
+      this.filesystemService.isFolderEmpty({ id: this.id })
+    );
 
-              if (result.checked === true) {
-                this.filesystemService
-                  .removeFolder({ id: this.id, cascade: true })
-                  .subscribe();
-              } else {
-                this.filesystemService
-                  .removeFolder({ id: this.id, cascade: false })
-                  .subscribe();
-              }
-            });
+    if (isFolderEmpty === false) {
+      this.dialog
+        .open(ConfirmWithCheckboxComponent, {
+          width: '100%',
+          maxWidth: '500px',
+          data: {
+            title: 'Вы уверены?',
+            message: 'Папка будет удалена?',
+            checkedLabel: 'Удалить вложенные папки и файлы',
+            checked: true,
+            YES: 'Удалить',
+            NO: 'Отмена',
+          },
+        })
+        .afterClosed()
+        .subscribe((result) => {
+          if (!result) return;
 
-          return;
-        }
+          this.store.dispatch(
+            removeFolderInitiated({ id: this.id, cascade: result.checked })
+          );
+        });
 
-        this.dialog
-          .open(ConfirmComponent, {
-            width: '100%',
-            maxWidth: '500px',
-            data: {
-              title: 'Вы уверены?',
-              message: 'Папка будет удалена?',
-              YES: 'Удалить',
-              NO: 'Отмена',
-            },
-          })
-          .afterClosed()
-          .subscribe((result) => {
-            if (result !== true) return;
+      return;
+    }
 
-            this.filesystemService
-              .removeFolder({ id: this.id, cascade: true })
-              .subscribe();
-          });
+    this.dialog
+      .open(ConfirmComponent, {
+        width: '100%',
+        maxWidth: '500px',
+        data: {
+          title: 'Вы уверены?',
+          message: 'Папка будет удалена?',
+          YES: 'Удалить',
+          NO: 'Отмена',
+        },
+      })
+      .afterClosed()
+      .subscribe((result) => {
+        if (result !== true) return;
+
+        this.store.dispatch(
+          removeFolderInitiated({ id: this.id, cascade: true })
+        );
       });
   }
 }

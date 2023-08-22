@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, isDevMode } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
@@ -36,6 +36,11 @@ import { ConfirmWithCheckboxComponent } from './components/popups/confirm-with-c
 import { ActionsComponent } from './components/actions/actions.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { EditorComponent } from './components/editor/editor.component';
+import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { EffectsModule } from '@ngrx/effects';
+import { metaReducers, reducers } from './state/core.reducer';
+import { FilesystemEffects } from './state/filesystem';
 
 @NgModule({
   declarations: [
@@ -78,7 +83,10 @@ import { EditorComponent } from './components/editor/editor.component';
     MatTooltipModule,
     MatCheckboxModule,
     MatExpansionModule,
-    EditorComponent
+    EditorComponent,
+    StoreModule.forRoot(reducers, { metaReducers }),
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
+    EffectsModule.forRoot([FilesystemEffects])
   ],
   providers: [],
   bootstrap: [AppComponent],
