@@ -2,9 +2,9 @@
   class="flex items-end w-full bg-dark-primary h-10 pt-1 px-2 overflow-hidden"
   cdkDropList
   cdkDropListOrientation="horizontal"
-  (cdkDropListDropped)="tabService.rearrangeTabs($event)"
+  (cdkDropListDropped)="rearrangeTabs($event)"
 >
-  <ng-container *ngFor="let tab of tabService.tabs$ | async; index as i">
+  <ng-container *ngFor="let tab of tabs$ | async; index as i">
     <div
       class="group w-full h-full flex items-center gap-2 max-w-[200px] pl-3 pr-2 cursor-pointer rounded-t-md text-white"
       [ngClass]="{
@@ -12,7 +12,7 @@
         'bg-dark-primary': tab.isActive === false,
       }"
       cdkDragLockAxis="x"
-      (click)="tabService.selectTab(i)"
+      (click)="selectTab(i)"
       cdkDrag
     >
       <div class="relative flex-1 w-full overflow-hidden">
@@ -29,7 +29,7 @@
         'hidden group-hover:block' : tab.isActive === false,
         'block' : tab.isActive === false,
       }"
-        (click)="tabService.removeTab(i)"
+        (click)="$event.stopImmediatePropagation(); removeTab(i)"
       >
         &times;
       </button>
@@ -39,7 +39,7 @@
   <button
     mat-ripple
     class="h-full min-w-[40px] flex justify-center items-center px-2 mx-1 hover:bg-black/5 stroke-white rounded-sm"
-    (click)="tabService.createTab()"
+    (click)="createTab()"
   >
     <svg
       width="24"

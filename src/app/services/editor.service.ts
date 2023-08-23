@@ -17,8 +17,7 @@ import {
   throwError,
 } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { IScenario } from '../models/scenario.model';
-import { TabService } from './tab.service';
+import { IScenario } from '../models/scenarios.model';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ITab } from '../models/tab.model';
 
@@ -39,31 +38,31 @@ export class EditorService {
     })
   );
 
-  constructor(private http: HttpClient, private tabService: TabService) {
-    this.tabService.tabs$.pipe(takeUntilDestroyed()).subscribe((tabs) => {
-      const activeTab = tabs.find((c) => c.isActive === true);
-      const currentActiveTab = this._activeTab;
+  constructor(private http: HttpClient) {
+    // this.tabService.tabs$.pipe(takeUntilDestroyed()).subscribe((tabs) => {
+    //   const activeTab = tabs.find((c) => c.isActive === true);
+    //   const currentActiveTab = this._activeTab;
 
-      if (activeTab === undefined) return;
-      if (
-        currentActiveTab?.fileId === activeTab.fileId &&
-        currentActiveTab?.nodeId === activeTab.nodeId &&
-        currentActiveTab?.scenarioId === activeTab.scenarioId
-      ) {
-        return;
-      }
+    //   if (activeTab === undefined) return;
+    //   if (
+    //     currentActiveTab?.fileId === activeTab.fileId &&
+    //     currentActiveTab?.nodeId === activeTab.nodeId &&
+    //     currentActiveTab?.scenarioId === activeTab.scenarioId
+    //   ) {
+    //     return;
+    //   }
 
-      this._activeTab = activeTab;
+    //   this._activeTab = activeTab;
 
       
-      if (
-        typeof activeTab.scenarioId === 'number' &&
-        activeTab.scenarioId !== currentActiveTab?.scenarioId
-        ) {
-        console.log("EDITOR", this._activeTab)
-        this._refetch$.next(false);
-      }
-    });
+    //   if (
+    //     typeof activeTab.scenarioId === 'number' &&
+    //     activeTab.scenarioId !== currentActiveTab?.scenarioId
+    //     ) {
+    //     console.log("EDITOR", this._activeTab)
+    //     this._refetch$.next(false);
+    //   }
+    // });
   }
 
   get refetch$() {
@@ -85,7 +84,7 @@ export class EditorService {
       .get<IScenario>(`${environment.BASE_URL}/scenario`, {
         params: new HttpParams({
           fromObject: {
-            id: this._activeTab.scenarioId,
+            id: 0,
           },
         }),
       })

@@ -3,19 +3,14 @@
     <app-tabs></app-tabs>
   </div>
   <div
-    *ngIf="tabService.activeTab?.fileId === undefined"
+    *ngIf="(fileId$ | async) === null"
     class="absolute inset-0 flex justify-center items-center bg-gray-100"
   >
     <app-filesystem-form
       class="bg-white shadow-sm w-full max-w-md rounded-md p-4"
     ></app-filesystem-form>
   </div>
-  <ng-container
-    *ngIf="
-      tabService.hasAnyTabs === true &&
-      tabService.activeTab?.fileId !== undefined
-    "
-  >
+  <ng-container *ngIf="fileId$ | async">
     <app-toolbar></app-toolbar>
     <app-sidebars class="flex-1">
       <app-editor></app-editor>

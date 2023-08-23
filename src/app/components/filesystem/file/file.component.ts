@@ -40,7 +40,7 @@ export class FileComponent implements OnInit {
         dialogRef.afterClosed().subscribe(result => {
             if (!result) return
 
-            this.store.dispatch(renameFileInitiated({ id: this.id, name: result.name }))
+            this.store.dispatch(renameFileInitiated({ payload: {id: this.id, name: result.name} }))
         })
     }
 
@@ -59,7 +59,7 @@ export class FileComponent implements OnInit {
         dialogRef.afterClosed().subscribe(result => {
             if (result !== true) return
 
-            this.store.dispatch(removeFileInitiated({ id: this.id }))
+            this.store.dispatch(removeFileInitiated({ payload: {id: this.id} }))
         })
     }
 }

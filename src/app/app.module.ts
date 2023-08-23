@@ -39,8 +39,11 @@ import { EditorComponent } from './components/editor/editor.component';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { EffectsModule } from '@ngrx/effects';
-import { metaReducers, reducers } from './state/core.reducer';
 import { FilesystemEffects } from './state/filesystem';
+import { TabsFeature } from './state/tabs/tabs.reducer';
+import { FilesystemFeature } from './state/filesystem/filesystem.reducer';
+import { ScenariosFeature } from './state/scenarios/scenarios.reducer';
+import { ScenarioEffects } from './state/scenarios';
 
 @NgModule({
   declarations: [
@@ -84,9 +87,12 @@ import { FilesystemEffects } from './state/filesystem';
     MatCheckboxModule,
     MatExpansionModule,
     EditorComponent,
-    StoreModule.forRoot(reducers, { metaReducers }),
+    StoreModule.forRoot({}, {}),
+    StoreModule.forFeature(TabsFeature),
+    StoreModule.forFeature(FilesystemFeature),
+    StoreModule.forFeature(ScenariosFeature),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
-    EffectsModule.forRoot([FilesystemEffects])
+    EffectsModule.forRoot([FilesystemEffects, ScenarioEffects])
   ],
   providers: [],
   bootstrap: [AppComponent],

@@ -8,7 +8,7 @@
       class="absolute inset-0 space-y-2 p-1.5 overflow-y-auto border-[1px] rounded-md"
     >
       <div
-        *ngIf="scenarioService.loading$ | async"
+        *ngIf="loading$ | async"
         class="flex items-center justify-center py-4"
       >
         <svg
@@ -36,8 +36,8 @@
         "
         class="group w-full flex items-center justify-between h-10 px-2 rounded-md cursor-pointer"
         [ngClass]="{
-            'bg-primary text-white stroke-white': scenario.id === activeScenarioId,
-            'bg-white text-black stroke-black hover:bg-black/5': scenario.id !== activeScenarioId,
+            'bg-primary text-white stroke-white': scenario.id === 0,
+            'bg-white text-black stroke-black hover:bg-black/5': scenario.id !== 0,
           }"
         (click)="selectScenario(scenario.id)"
       >

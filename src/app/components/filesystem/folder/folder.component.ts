@@ -56,7 +56,9 @@ export class FolderComponent implements OnInit {
       if (!result) return;
 
       this.store.dispatch(
-        createFileInitiated({ parentFolderId: this.id, name: result.name })
+        createFileInitiated({
+          payload: { parentFolderId: this.id, name: result.name },
+        })
       );
     });
   }
@@ -76,7 +78,9 @@ export class FolderComponent implements OnInit {
       if (!result) return;
 
       this.store.dispatch(
-        createFolderInitiated({ parentFolderId: this.id, name: result.name })
+        createFolderInitiated({
+          payload: { parentFolderId: this.id, name: result.name },
+        })
       );
     });
   }
@@ -97,7 +101,7 @@ export class FolderComponent implements OnInit {
       if (!result) return;
 
       this.store.dispatch(
-        renameFolderInitiated({ id: this.id, name: result.name })
+        renameFolderInitiated({ payload: { id: this.id, name: result.name } })
       );
     });
   }
@@ -126,7 +130,9 @@ export class FolderComponent implements OnInit {
           if (!result) return;
 
           this.store.dispatch(
-            removeFolderInitiated({ id: this.id, cascade: result.checked })
+            removeFolderInitiated({
+              payload: { id: this.id, cascade: result.checked },
+            })
           );
         });
 
@@ -149,7 +155,7 @@ export class FolderComponent implements OnInit {
         if (result !== true) return;
 
         this.store.dispatch(
-          removeFolderInitiated({ id: this.id, cascade: true })
+          removeFolderInitiated({ payload: { id: this.id, cascade: true } })
         );
       });
   }

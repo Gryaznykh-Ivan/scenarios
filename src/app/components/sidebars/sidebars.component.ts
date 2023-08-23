@@ -3,16 +3,20 @@ import {
   CdkDragMove,
   CdkDragStart,
 } from '@angular/cdk/drag-drop';
-import { Component, Input } from '@angular/core';
+import { Component, DestroyRef, Input, OnInit } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Store } from '@ngrx/store';
 import { IDraggableDelta } from 'src/app/directives/draggable.directive';
-import { TabService } from 'src/app/services/tab.service';
+import { IToolbar } from 'src/app/models/toolbar.model';
+import { selectToolbar } from 'src/app/state/tabs';
 
 @Component({
   selector: 'app-sidebars',
   templateUrl: './sidebars.component.html',
 })
-export class SidebarsComponent {
-  isDragging = false
+export class SidebarsComponent implements OnInit {
+  toolbar: IToolbar;
+  isDragging = false;
   bottomSidebarHeight = 128;
   bottomSidebarExtraHeight = 0;
   rightSidebarWidth = 250;
@@ -20,31 +24,33 @@ export class SidebarsComponent {
   leftSidebarWidth = 250;
   leftSidebarExtraWidth = 0;
 
-  constructor(
-    public tabService: TabService
-  ) {}
+  constructor(private store: Store) {}
 
-  onSidebarDragStart() {
-    this.isDragging = true
+  ngOnInit(): void {
+    this.store.select(selectToolbar).subscribe((next) => (this.toolbar = next));
   }
 
-  onBottomSidebarDragMove(delta: IDraggableDelta){
+  onSidebarDragStart() {
+    this.isDragging = true;
+  }
+
+  onBottomSidebarDragMove(delta: IDraggableDelta) {
     const newHeight = this.bottomSidebarHeight - delta.y;
     this.bottomSidebarExtraHeight =
-    newHeight > 500
+      newHeight > 500
         ? 500 - this.bottomSidebarHeight
         : newHeight < 128
         ? 128 - this.bottomSidebarHeight
         : -delta.y;
-  };
+  }
 
-  onBottomSidebarDragEnd(){
+  onBottomSidebarDragEnd() {
     const sum = this.bottomSidebarHeight + this.bottomSidebarExtraHeight;
     this.bottomSidebarHeight = sum > 500 ? 500 : sum < 128 ? 128 : sum;
     this.bottomSidebarExtraHeight = 0;
 
-    this.isDragging = false
-  };
+    this.isDragging = false;
+  }
 
   onRightSidebarDragMove(delta: IDraggableDelta) {
     const newWidth = this.rightSidebarWidth - delta.x;
@@ -61,7 +67,7 @@ export class SidebarsComponent {
     this.rightSidebarWidth = sum > 500 ? 500 : sum < 250 ? 250 : sum;
     this.rightSidebarExtraWidth = 0;
 
-    this.isDragging = false
+    this.isDragging = false;
   }
 
   onLeftSidebarDragMove(delta: IDraggableDelta) {
@@ -79,6 +85,6 @@ export class SidebarsComponent {
     this.leftSidebarWidth = sum > 500 ? 500 : sum < 250 ? 250 : sum;
     this.leftSidebarExtraWidth = 0;
 
-    this.isDragging = false
+    this.isDragging = false;
   }
 }

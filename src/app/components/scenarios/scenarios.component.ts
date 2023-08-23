@@ -1,27 +1,41 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, DestroyRef, Input, OnDestroy, OnInit, inject } from '@angular/core';
-import { Observable, Subject, switchMap, takeUntil } from 'rxjs';
-import { ScenarioService } from 'src/app/services/scenario.service';
-import { IScenarioPreview } from 'src/app/models/scenario.model';
-import { TabService } from 'src/app/services/tab.service';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  DestroyRef,
+  Input,
+  OnDestroy,
+  OnInit,
+  inject,
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmWithNameComponent } from '../popups/confirm-with-name/confirm-with-name.component';
 import { ConfirmComponent } from '../popups/confirm/confirm.component';
+import { Store } from '@ngrx/store';
+import {
+  createScenarioInitiated,
+  getScenariosInitiated,
+  removeScenarioInitiated,
+  selectError,
+  selectLoading,
+  selectScenarios,
+} from 'src/app/state/scenarios';
 
 @Component({
   selector: 'app-scenarios',
   templateUrl: './scenarios.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ScenariosComponent implements OnInit {
-  @Input() activeScenarioId?: number;
+  loading$ = this.store.select(selectLoading)
+  scenarios$ = this.store.select(selectScenarios)
+  error$ = this.store.select(selectError)
 
   fileSearch: string = '';
-  scenarios$: Observable<IScenarioPreview[]>;
 
   constructor(
-    public scenarioService: ScenarioService,
+    private store: Store,
     private dialog: MatDialog,
-    private cd: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
@@ -29,11 +43,7 @@ export class ScenariosComponent implements OnInit {
   }
 
   getScenarios() {
-    this.scenarios$ = this.scenarioService.refetch$.pipe(
-      switchMap(() => {
-        return this.scenarioService.getScenarios();
-      })
-    );
+    this.store.dispatch(getScenariosInitiated());
   }
 
   createScenario() {
@@ -50,14 +60,16 @@ export class ScenariosComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       if (!result) return;
 
-      this.scenarioService
-        .createScenario({ name: result.name, description: '' })
-        .subscribe();
+      this.store.dispatch(
+        createScenarioInitiated({
+          payload: { name: result.name, description: '' },
+        })
+      );
     });
   }
 
   removeScenario(event: MouseEvent, id: number) {
-    event.stopPropagation()
+    event.stopPropagation();
 
     const dialogRef = this.dialog.open(ConfirmComponent, {
       width: '100%',
@@ -73,11 +85,11 @@ export class ScenariosComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       if (result !== true) return;
 
-      this.scenarioService.removeScenario({ id }).subscribe();
+      this.store.dispatch(removeScenarioInitiated({ payload: { id } }));
     });
   }
 
   selectScenario(id: number) {
-    this.scenarioService.selectScenario(id)
+    // this.scenarioService.selectScenario(id)
   }
 }

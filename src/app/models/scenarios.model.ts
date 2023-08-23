@@ -44,8 +44,14 @@ export interface IRelation {
 
 export type IScenarioPreview = Omit<IScenario, 'nodes' | 'relations'>;
 
+export type IGetScenariosResponse = IScenarioPreview[];
+export interface IGetScenariosRequest {
+  id: number;
+}
+
 export type ICreateScenarioResponse = number;
 export interface ICreateScenarioRequest {
+  id: number;
   name: string;
   description: string;
 }

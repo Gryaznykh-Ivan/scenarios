@@ -18,7 +18,6 @@ import { Observable, debounceTime, fromEvent, switchMap } from 'rxjs';
 import { CoreShapeComponent } from 'src/app/libs/ng2-konva/components/core-shape.component';
 import { StageComponent } from 'src/app/libs/ng2-konva/components/stage.component';
 import { NgKonvaEventObject } from 'src/app/libs/ng2-konva/interfaces/ngKonvaEventObject';
-import { IScenario } from 'src/app/models/scenario.model';
 import { EditorService } from 'src/app/services/editor.service';
 
 @Component({
@@ -31,8 +30,6 @@ import { EditorService } from 'src/app/services/editor.service';
 export class EditorComponent implements OnInit, AfterViewInit {
   @ViewChild('stage') stage: StageComponent;
   @ViewChild('layer') layer: CoreShapeComponent;
-
-  scenario$: Observable<IScenario>;
 
   stageConfig: Partial<StageConfig> = {
     draggable: true,
@@ -58,11 +55,6 @@ export class EditorComponent implements OnInit, AfterViewInit {
     //   .pipe(takeUntilDestroyed(this.descroyRef), debounceTime(10))
     //   .subscribe(this.onResize);
 
-
-
-    this.scenario$ = this.editorService.refetch$.pipe(
-      switchMap(() => this.editorService.getScenario())
-    );
   }
 
   ngAfterViewInit(): void {

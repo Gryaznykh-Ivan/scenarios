@@ -13,20 +13,19 @@ import {
   throwError,
 } from 'rxjs';
 import { IFile, IFolder } from 'src/app/models/filesystem.model';
-import { TabService } from 'src/app/services/tab.service';
-import { getFilesystemInitiated, selectFilesystem, selectFilesystemError, selectFilesystemFolder, selectFilesystemLoading } from 'src/app/state/filesystem';
+import { getFilesystemInitiated, selectError, selectFolder, selectLoading } from 'src/app/state/filesystem';
+import { selectTabInitiated, updateActiveTabInitiated } from 'src/app/state/tabs';
 
 @Component({
   selector: 'app-filesystem-form',
   templateUrl: 'filesystem-form.component.html',
 })
 export class FilesystemFormComponent implements OnInit {
-  loading$ = this.store.select(selectFilesystemLoading)
-  folder$ = this.store.select(selectFilesystemFolder)
-  error$ = this.store.select(selectFilesystemError)
+  loading$ = this.store.select(selectLoading)
+  folder$ = this.store.select(selectFolder)
+  error$ = this.store.select(selectError)
 
   constructor(
-    public tabService: TabService,
     public router: Router,
     private store: Store
   ) {}
@@ -40,6 +39,6 @@ export class FilesystemFormComponent implements OnInit {
   }
 
   selectFile = (data: IFile) => {
-    this.tabService.updateActiveTab({ title: data.name, fileId: data.id })
+    this.store.dispatch(updateActiveTabInitiated({ fileId: data.id, title: data.name }))
   };
 }

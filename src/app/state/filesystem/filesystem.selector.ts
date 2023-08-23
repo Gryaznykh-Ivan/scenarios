@@ -1,19 +1,9 @@
 import { createFeatureSelector, createSelector } from "@ngrx/store";
-import { FilesystemState } from "./filesystem.state";
+import { FilesystemFeature } from "./filesystem.reducer";
 
-export const selectFilesystem = createFeatureSelector<FilesystemState>("filesystem")
-
-export const selectFilesystemFolder = createSelector(
-    selectFilesystem,
-    (state: FilesystemState) => state.folder
-)
-
-export const selectFilesystemLoading = createSelector(
-    selectFilesystem,
-    (state: FilesystemState) => state.loading
-)
-
-export const selectFilesystemError = createSelector(
-    selectFilesystem,
-    (state: FilesystemState) => state.error
-)
+export const {
+    selectFilesystemState,
+    selectFolder,
+    selectLoading,
+    selectError,
+} = FilesystemFeature

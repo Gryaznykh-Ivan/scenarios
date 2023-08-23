@@ -2,14 +2,14 @@
   <div class="flex gap-2 items-center">
     <div class="relative">
       <span
-        *ngIf="tabService.activeTab?.toolbar?.scenarios"
+        *ngIf="(toolbar$ | async)?.scenarios"
         class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"
       ></span>
       <button
         mat-ripple
         matTooltip="Сценарии"
         class="stroke-white p-2 rounded-full flex justify-center items-center"
-        (click)="tabService.toolbarToggle('scenarios')"
+        (click)="toolbarToggle('scenarios')"
       >
         <svg
           width="24"
@@ -30,14 +30,14 @@
     </div>
     <div class="relative">
       <span
-      *ngIf="tabService.activeTab?.toolbar?.actions"
+      *ngIf="(toolbar$ | async)?.actions"
         class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"
       ></span>
       <button
         mat-ripple
         matTooltip="Действия"
         class="stroke-white rounded-full p-2 flex justify-center items-center"
-        (click)="tabService.toolbarToggle('actions')"
+        (click)="toolbarToggle('actions')"
       >
         <svg
           width="24"
@@ -58,14 +58,14 @@
     </div>
     <div class="relative">
       <span
-      *ngIf="tabService.activeTab?.toolbar?.properties"
+      *ngIf="(toolbar$ | async)?.properties"
         class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"
       ></span>
       <button
         mat-ripple
         matTooltip="Свойства"
         class="stroke-white rounded-full p-2 flex justify-center items-center"
-        (click)="tabService.toolbarToggle('properties')"
+        (click)="toolbarToggle('properties')"
       >
         <svg
           width="24"
@@ -86,14 +86,14 @@
     </div>
     <div class="relative">
       <span
-      *ngIf="tabService.activeTab?.toolbar?.console"
+      *ngIf="(toolbar$ | async)?.console"
         class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"
       ></span>
       <button
         mat-ripple
         matTooltip="Консоль"
         class="stroke-white rounded-full p-2 flex justify-center items-center"
-        (click)="tabService.toolbarToggle('console')"
+        (click)="toolbarToggle('console')"
       >
         <svg
           width="24"
