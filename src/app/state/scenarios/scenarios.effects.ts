@@ -1,12 +1,25 @@
 import { Injectable } from '@angular/core';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
-import * as ScenarioActions from './scenarios.actions';
-import * as TabsActions from '../tabs/tabs.actions';
 import { catchError, filter, map, of, switchMap } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ScenarioService } from 'src/app/services/scenario.service';
 import { Store } from '@ngrx/store';
-import { selectFileId } from '../tabs';
+import {
+  selectFileId,
+  selectTabInitiated,
+  updateActiveTabInitiated,
+} from '../tabs';
+import {
+  createScenarioFailed,
+  createScenarioInitiated,
+  createScenarioSuccess,
+  getScenariosFailed,
+  getScenariosInitiated,
+  getScenariosSuccess,
+  removeScenarioFailed,
+  removeScenarioInitiated,
+  removeScenarioSuccess,
+} from './scenarios.actions';
 
 @Injectable()
 export class ScenarioEffects {
@@ -16,23 +29,29 @@ export class ScenarioEffects {
     private scenarioService: ScenarioService
   ) {}
 
-  getScenarios$ = createEffect(() =>
+  refetchScenarios$ = createEffect(() =>
     this.actions$.pipe(
       ofType(
-        ScenarioActions.getScenariosInitiated,
-        ScenarioActions.createScenarioSuccess,
-        ScenarioActions.removeScenarioSuccess,
-        TabsActions.selectTabInitiated,
-        TabsActions.updateActiveTabInitiated
+        selectTabInitiated,
+        updateActiveTabInitiated,
+        createScenarioSuccess,
+        removeScenarioSuccess
       ),
       concatLatestFrom(() => this.store.select(selectFileId)),
       filter(([_, fileId]) => fileId !== null),
-      switchMap(([_, fileId]) =>
-        this.scenarioService.getScenarios({ id: fileId! }).pipe(
-          map((next) => ScenarioActions.getScenariosSuccess({ payload: next })),
+      switchMap(([_, fileId]) => of(getScenariosInitiated({ payload: { id: fileId! } })))
+    )
+  );
+
+  getScenarios$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(getScenariosInitiated),
+      switchMap(({ payload }) =>
+        this.scenarioService.getScenarios({ id: payload.id! }).pipe(
+          map((next) => getScenariosSuccess({ payload: next })),
           catchError((error: HttpErrorResponse) =>
             of(
-              ScenarioActions.getScenariosFailed({
+              getScenariosFailed({
                 payload: { error: error.message },
               })
             )
@@ -44,7 +63,7 @@ export class ScenarioEffects {
 
   createScenario$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(ScenarioActions.createScenarioInitiated),
+      ofType(createScenarioInitiated),
       concatLatestFrom(() => this.store.select(selectFileId)),
       filter(([_, fileId]) => fileId !== null),
       switchMap(([{ payload }, fileId]) =>
@@ -55,12 +74,10 @@ export class ScenarioEffects {
             description: payload.description,
           })
           .pipe(
-            map((next) =>
-              ScenarioActions.createScenarioSuccess({ payload: next })
-            ),
+            map((next) => createScenarioSuccess({ payload: next })),
             catchError((error: HttpErrorResponse) =>
               of(
-                ScenarioActions.createScenarioFailed({
+                createScenarioFailed({
                   payload: { error: error.message },
                 })
               )
@@ -72,15 +89,13 @@ export class ScenarioEffects {
 
   removeScenario$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(ScenarioActions.removeScenarioInitiated),
+      ofType(removeScenarioInitiated),
       switchMap(({ payload }) =>
         this.scenarioService.removeScenario({ id: payload.id }).pipe(
-          map((next) =>
-            ScenarioActions.removeScenarioSuccess({ payload: next })
-          ),
+          map((next) => removeScenarioSuccess({ payload: next })),
           catchError((error: HttpErrorResponse) =>
             of(
-              ScenarioActions.removeScenarioFailed({
+              removeScenarioFailed({
                 payload: { error: error.message },
               })
             )

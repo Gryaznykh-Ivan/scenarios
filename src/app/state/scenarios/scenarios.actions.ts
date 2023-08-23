@@ -11,6 +11,7 @@ import {
 
 export const getScenariosInitiated = createAction(
   '[Get Scenarios] Get Scenarios Initiated',
+  props<{ payload: IGetScenariosRequest }>()
 );
 
 export const getScenariosSuccess = createAction(
@@ -23,11 +24,9 @@ export const getScenariosFailed = createAction(
   props<{ payload: IError }>()
 );
 
-
-
 export const createScenarioInitiated = createAction(
   '[Create Scenario] Create Scenario Initiated',
-  props<{ payload: Omit<ICreateScenarioRequest, "id"> }>()
+  props<{ payload: Omit<ICreateScenarioRequest, 'id'> }>()
 );
 
 export const createScenarioSuccess = createAction(
@@ -39,9 +38,6 @@ export const createScenarioFailed = createAction(
   '[Create Scenario] Create Scenario Failed',
   props<{ payload: IError }>()
 );
-
-
-
 
 export const removeScenarioInitiated = createAction(
   '[Remove Scenario] Remove Scenario Initiated',

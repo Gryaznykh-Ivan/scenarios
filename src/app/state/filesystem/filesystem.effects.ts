@@ -1,9 +1,34 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import * as FilesystemActions from './filesystem.actions';
 import { catchError, map, of, switchMap } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { FilesystemService } from 'src/app/services/filesystem.service';
+import {
+  createFileFailed,
+  createFileInitiated,
+  createFileSuccess,
+  createFolderFailed,
+  createFolderInitiated,
+  createFolderSuccess,
+  getFilesystemFailed,
+  getFilesystemInitiated,
+  getFilesystemSuccess,
+  isFolderExistFailed,
+  isFolderExistInitiated,
+  isFolderExistSuccess,
+  removeFileFailed,
+  removeFileInitiated,
+  removeFileSuccess,
+  removeFolderFailed,
+  removeFolderInitiated,
+  removeFolderSuccess,
+  renameFileFailed,
+  renameFileInitiated,
+  renameFileSuccess,
+  renameFolderFailed,
+  renameFolderInitiated,
+  renameFolderSuccess,
+} from './filesystem.actions';
 
 @Injectable()
 export class FilesystemEffects {
@@ -12,23 +37,29 @@ export class FilesystemEffects {
     private filesystemService: FilesystemService
   ) {}
 
-  getFilesystem$ = createEffect(() =>
+  refetchFilesystem$ = createEffect(() =>
     this.actions$.pipe(
       ofType(
-        FilesystemActions.getFilesystemInitiated,
-        FilesystemActions.renameFileSuccess,
-        FilesystemActions.renameFolderSuccess,
-        FilesystemActions.createFileSuccess,
-        FilesystemActions.createFolderSuccess,
-        FilesystemActions.removeFileSuccess,
-        FilesystemActions.removeFolderSuccess
+        renameFileSuccess,
+        renameFolderSuccess,
+        createFileSuccess,
+        createFolderSuccess,
+        removeFileSuccess,
+        removeFolderSuccess
       ),
+      switchMap(() => of(getFilesystemInitiated()))
+    )
+  );
+
+  getFilesystem$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(getFilesystemInitiated),
       switchMap((action) =>
         this.filesystemService.getFolder({ id: 0 }).pipe(
-          map((next) => FilesystemActions.getFilesystemSuccess({payload: next})),
+          map((next) => getFilesystemSuccess({ payload: next })),
           catchError((error: HttpErrorResponse) =>
             of(
-              FilesystemActions.getFilesystemFailed({
+              getFilesystemFailed({
                 payload: { error: error.message },
               })
             )
@@ -40,19 +71,17 @@ export class FilesystemEffects {
 
   isFolderExist$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(FilesystemActions.isFolderExistInitiated),
+      ofType(isFolderExistInitiated),
       switchMap(({ payload }) =>
         this.filesystemService
           .isFolderEmpty({
             id: payload.id,
           })
           .pipe(
-            map((next) =>
-              FilesystemActions.isFolderExistSuccess({ payload: next })
-            ),
+            map((next) => isFolderExistSuccess({ payload: next })),
             catchError((error: HttpErrorResponse) =>
               of(
-                FilesystemActions.isFolderExistFailed({
+                isFolderExistFailed({
                   payload: { error: error.message },
                 })
               )
@@ -64,7 +93,7 @@ export class FilesystemEffects {
 
   createFile$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(FilesystemActions.createFileInitiated),
+      ofType(createFileInitiated),
       switchMap(({ payload }) =>
         this.filesystemService
           .createFile({
@@ -72,10 +101,10 @@ export class FilesystemEffects {
             name: payload.name,
           })
           .pipe(
-            map((next) => FilesystemActions.createFileSuccess({payload: next})),
+            map((next) => createFileSuccess({ payload: next })),
             catchError((error: HttpErrorResponse) =>
               of(
-                FilesystemActions.createFileFailed({
+                createFileFailed({
                   payload: { error: error.message },
                 })
               )
@@ -87,7 +116,7 @@ export class FilesystemEffects {
 
   createFolder$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(FilesystemActions.createFolderInitiated),
+      ofType(createFolderInitiated),
       switchMap(({ payload }) =>
         this.filesystemService
           .createFolder({
@@ -95,10 +124,10 @@ export class FilesystemEffects {
             name: payload.name,
           })
           .pipe(
-            map((next) => FilesystemActions.createFolderSuccess({payload: next})),
+            map((next) => createFolderSuccess({ payload: next })),
             catchError((error: HttpErrorResponse) =>
               of(
-                FilesystemActions.createFolderFailed({
+                createFolderFailed({
                   payload: { error: error.message },
                 })
               )
@@ -110,15 +139,15 @@ export class FilesystemEffects {
 
   renameFolder$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(FilesystemActions.renameFolderInitiated),
+      ofType(renameFolderInitiated),
       switchMap(({ payload }) =>
         this.filesystemService
           .renameFolder({ id: payload.id, name: payload.name })
           .pipe(
-            map((next) => FilesystemActions.renameFolderSuccess({payload: next})),
+            map((next) => renameFolderSuccess({ payload: next })),
             catchError((error: HttpErrorResponse) =>
               of(
-                FilesystemActions.renameFolderFailed({
+                renameFolderFailed({
                   payload: { error: error.message },
                 })
               )
@@ -130,15 +159,15 @@ export class FilesystemEffects {
 
   renameFile$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(FilesystemActions.renameFileInitiated),
+      ofType(renameFileInitiated),
       switchMap(({ payload }) =>
         this.filesystemService
           .renameFile({ id: payload.id, name: payload.name })
           .pipe(
-            map((next) => FilesystemActions.renameFileSuccess({payload: next})),
+            map((next) => renameFileSuccess({ payload: next })),
             catchError((error: HttpErrorResponse) =>
               of(
-                FilesystemActions.renameFileFailed({
+                renameFileFailed({
                   payload: { error: error.message },
                 })
               )
@@ -150,13 +179,13 @@ export class FilesystemEffects {
 
   removeFile$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(FilesystemActions.removeFileInitiated),
+      ofType(removeFileInitiated),
       switchMap(({ payload }) =>
         this.filesystemService.removeFile({ id: payload.id }).pipe(
-          map(() => FilesystemActions.removeFileSuccess()),
+          map(() => removeFileSuccess()),
           catchError((error: HttpErrorResponse) =>
             of(
-              FilesystemActions.removeFileFailed({
+              removeFileFailed({
                 payload: { error: error.message },
               })
             )
@@ -168,15 +197,15 @@ export class FilesystemEffects {
 
   removeFolder$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(FilesystemActions.removeFolderInitiated),
+      ofType(removeFolderInitiated),
       switchMap(({ payload }) =>
         this.filesystemService
           .removeFolder({ id: payload.id, cascade: payload.cascade })
           .pipe(
-            map(() => FilesystemActions.removeFolderSuccess()),
+            map(() => removeFolderSuccess()),
             catchError((error: HttpErrorResponse) =>
               of(
-                FilesystemActions.removeFolderFailed({
+                removeFolderFailed({
                   payload: { error: error.message },
                 })
               )

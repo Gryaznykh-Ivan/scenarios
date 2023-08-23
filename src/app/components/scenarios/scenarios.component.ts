@@ -26,7 +26,7 @@ import {
   templateUrl: './scenarios.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ScenariosComponent implements OnInit {
+export class ScenariosComponent {
   loading$ = this.store.select(selectLoading)
   scenarios$ = this.store.select(selectScenarios)
   error$ = this.store.select(selectError)
@@ -37,14 +37,6 @@ export class ScenariosComponent implements OnInit {
     private store: Store,
     private dialog: MatDialog,
   ) {}
-
-  ngOnInit() {
-    this.getScenarios();
-  }
-
-  getScenarios() {
-    this.store.dispatch(getScenariosInitiated());
-  }
 
   createScenario() {
     const dialogRef = this.dialog.open(ConfirmWithNameComponent, {

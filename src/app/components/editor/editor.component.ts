@@ -51,9 +51,9 @@ export class EditorComponent implements OnInit, AfterViewInit {
   ) {}
 
   ngOnInit(): void {
-    // fromEvent(window, 'resize')
-    //   .pipe(takeUntilDestroyed(this.descroyRef), debounceTime(10))
-    //   .subscribe(this.onResize);
+    fromEvent(window, 'resize')
+      .pipe(takeUntilDestroyed(this.descroyRef), debounceTime(10))
+      .subscribe(this.onResize);
 
   }
 

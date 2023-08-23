@@ -44,6 +44,7 @@ import { TabsFeature } from './state/tabs/tabs.reducer';
 import { FilesystemFeature } from './state/filesystem/filesystem.reducer';
 import { ScenariosFeature } from './state/scenarios/scenarios.reducer';
 import { ScenarioEffects } from './state/scenarios';
+import { TabsEffects } from './state/tabs';
 
 @NgModule({
   declarations: [
@@ -63,7 +64,7 @@ import { ScenarioEffects } from './state/scenarios';
     ConfirmWithNameComponent,
     SearchFilterPipe,
     ConfirmWithCheckboxComponent,
-    ActionsComponent
+    ActionsComponent,
   ],
   imports: [
     BrowserModule,
@@ -92,7 +93,7 @@ import { ScenarioEffects } from './state/scenarios';
     StoreModule.forFeature(FilesystemFeature),
     StoreModule.forFeature(ScenariosFeature),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
-    EffectsModule.forRoot([FilesystemEffects, ScenarioEffects])
+    EffectsModule.forRoot([FilesystemEffects, ScenarioEffects, TabsEffects]),
   ],
   providers: [],
   bootstrap: [AppComponent],
