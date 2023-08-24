@@ -1,6 +1,7 @@
 import { Action, createFeature, createReducer, on } from '@ngrx/store';
-import * as ScenarioActions from './scenarios.actions';
 import { IScenarioPreview } from 'src/app/models/scenarios.model';
+import { getScenariosFailed, getScenariosInitiated, getScenariosSuccess } from './scenarios.actions';
+
 
 export interface ScenarioState {
   loading: boolean;
@@ -14,20 +15,21 @@ export const initialState: ScenarioState = {
   error: '',
 };
 
+
 export const ScenariosFeature = createFeature({
   name: 'scenarios',
   reducer: createReducer(
     initialState,
-    on(ScenarioActions.getScenariosInitiated, (state) => ({
+    on(getScenariosInitiated, (state) => ({
       ...state,
       loading: true,
     })),
-    on(ScenarioActions.getScenariosSuccess, (state, { payload }) => ({
+    on(getScenariosSuccess, (state, { payload }) => ({
       ...state,
       loading: false,
       scenarios: payload,
     })),
-    on(ScenarioActions.getScenariosFailed, (state, { payload }) => ({
+    on(getScenariosFailed, (state, { payload }) => ({
       ...state,
       loading: false,
       error: payload.error,

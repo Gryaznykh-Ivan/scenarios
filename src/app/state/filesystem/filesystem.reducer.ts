@@ -1,6 +1,6 @@
 import { Action, createFeature, createReducer, on } from "@ngrx/store"
-import * as FilesystemActions from "./filesystem.actions"
 import { IFolder } from "src/app/models/filesystem.model";
+import { getFilesystemFailed, getFilesystemInitiated, getFilesystemSuccess } from "./filesystem.actions";
 
 export interface FilesystemState {
     loading: boolean;
@@ -18,16 +18,16 @@ export const FilesystemFeature = createFeature({
     name: "filesystem",
     reducer: createReducer(
         initialState,
-        on(FilesystemActions.getFilesystemInitiated, (state) => ({
+        on(getFilesystemInitiated, (state) => ({
             ...state,
             loading: true
         })),
-        on(FilesystemActions.getFilesystemSuccess, (state, { payload: folder }) => ({
+        on(getFilesystemSuccess, (state, { payload: folder }) => ({
             ...state,
             loading: false,
             folder: folder
         })),
-        on(FilesystemActions.getFilesystemFailed, (state, { payload }) => ({
+        on(getFilesystemFailed, (state, { payload }) => ({
             ...state,
             loading: false,
             error: payload.error

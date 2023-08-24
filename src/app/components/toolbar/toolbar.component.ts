@@ -13,6 +13,6 @@ export class ToolbarComponent {
   constructor (private store: Store) {}
 
   toolbarToggle(toolbar: keyof IToolbar) {
-    this.store.dispatch(toggleTabToolbarInitiated({ toolbar }))
+    this.store.dispatch(toggleTabToolbarInitiated({ payload: { toolbar } }))
   }
 }

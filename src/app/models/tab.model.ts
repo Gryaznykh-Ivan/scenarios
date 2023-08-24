@@ -27,4 +27,16 @@ export interface IToggleTabToolbar {
   toolbar: keyof IToolbar;
 }
 
-export type IUpdateTab = Partial<ITab>
+export interface ISelectFile {
+  fileId: number;
+}
+
+export interface ISelectScenario {
+  scenarioId: number;
+}
+
+export interface ISelectNode {
+  nodeId: number;
+}
+
+export type IUpdateTab = Partial<Pick<ITab, "title" | "isActive" | "toolbar">>

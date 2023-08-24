@@ -43,8 +43,9 @@ import { FilesystemEffects } from './state/filesystem';
 import { TabsFeature } from './state/tabs/tabs.reducer';
 import { FilesystemFeature } from './state/filesystem/filesystem.reducer';
 import { ScenariosFeature } from './state/scenarios/scenarios.reducer';
-import { ScenarioEffects } from './state/scenarios';
+import { ScenariosEffects } from './state/scenarios';
 import { TabsEffects } from './state/tabs';
+import { ActionsEffects, ActionsFeature } from './state/actions';
 
 @NgModule({
   declarations: [
@@ -92,8 +93,9 @@ import { TabsEffects } from './state/tabs';
     StoreModule.forFeature(TabsFeature),
     StoreModule.forFeature(FilesystemFeature),
     StoreModule.forFeature(ScenariosFeature),
+    StoreModule.forFeature(ActionsFeature),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
-    EffectsModule.forRoot([FilesystemEffects, ScenarioEffects, TabsEffects]),
+    EffectsModule.forRoot([FilesystemEffects, ScenariosEffects, TabsEffects, ActionsEffects]),
   ],
   providers: [],
   bootstrap: [AppComponent],

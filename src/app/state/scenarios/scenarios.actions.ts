@@ -8,6 +8,7 @@ import {
   IRemoveScenarioRequest,
   IRemoveScenarioResponse,
 } from 'src/app/models/scenarios.model';
+import { ISelectFile, ISelectNode, ISelectScenario } from 'src/app/models/tab.model';
 
 export const getScenariosInitiated = createAction(
   '[Get Scenarios] Get Scenarios Initiated',

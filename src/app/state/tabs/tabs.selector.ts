@@ -15,6 +15,16 @@ export const selectFileId = createSelector(
     tab => tab!.fileId
 )
 
+export const selectScenarioId = createSelector(
+    selectActiveTab,
+    tab => tab!.scenarioId
+)
+
+export const selectNodeId = createSelector(
+    selectActiveTab,
+    tab => tab!.nodeId
+)
+
 export const selectToolbar = createSelector(
     selectActiveTab,
     tab => tab!.toolbar

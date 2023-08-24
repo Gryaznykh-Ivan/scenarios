@@ -1,7 +1,7 @@
 <div class="relative h-full">
   <div class="absolute inset-0 overflow-y-auto border-[1px] rounded-md">
     <div
-      *ngIf="actionService.loading$ | async"
+      *ngIf="loading$ | async"
       class="flex items-center justify-center py-4"
     >
       <svg
@@ -23,24 +23,24 @@
     </div>
     <mat-accordion displayMode="flat" multi>
       <mat-expansion-panel
-        *ngFor="let actionGroup of actionGroups$ | async"
+        *ngFor="let groupAction of groupedActions$ | async"
         expanded
       >
         <mat-expansion-panel-header>
           <mat-panel-title>
-            {{ actionGroup.name }}
+            {{ groupAction.name }}
           </mat-panel-title>
         </mat-expansion-panel-header>
         <div class="flex flex-wrap gap-2">
           <div
             class="max-w-[50px] p-1"
-            *ngFor="let action of actionGroup.actionList"
+            *ngFor="let action of groupAction.actionList"
             draggable="true"
             (dragstart)="onDragStart($event, action)"
           >
             <div
               class=""
-              [innerHTML]="actionService.createActionPreview(action)"
+              [innerHTML]="createActionPreview(action)"
             ></div>
             <div class="text-center text-sm mt-1 overflow-hidden overflow-ellipsis">{{ action.label }}</div>
           </div>

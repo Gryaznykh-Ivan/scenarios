@@ -36,8 +36,8 @@
         "
         class="group w-full flex items-center justify-between h-10 px-2 rounded-md cursor-pointer"
         [ngClass]="{
-            'bg-primary text-white stroke-white': scenario.id === 0,
-            'bg-white text-black stroke-black hover:bg-black/5': scenario.id !== 0,
+            'bg-primary text-white stroke-white': scenario.id === selectedScenarioId,
+            'bg-white text-black stroke-black hover:bg-black/5': scenario.id !== selectedScenarioId,
           }"
         (click)="selectScenario(scenario.id)"
       >

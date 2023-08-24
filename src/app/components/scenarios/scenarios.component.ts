@@ -20,23 +20,30 @@ import {
   selectLoading,
   selectScenarios,
 } from 'src/app/state/scenarios';
+import { selectActiveTab, selectScenarioInitiated } from 'src/app/state/tabs';
 
 @Component({
   selector: 'app-scenarios',
   templateUrl: './scenarios.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ScenariosComponent {
-  loading$ = this.store.select(selectLoading)
-  scenarios$ = this.store.select(selectScenarios)
-  error$ = this.store.select(selectError)
+export class ScenariosComponent implements OnInit {
+  loading$ = this.store.select(selectLoading);
+  scenarios$ = this.store.select(selectScenarios);
+  error$ = this.store.select(selectError);
 
+  selectedScenarioId: number | null;
   fileSearch: string = '';
 
-  constructor(
-    private store: Store,
-    private dialog: MatDialog,
-  ) {}
+  constructor(private store: Store, private dialog: MatDialog) {}
+
+  ngOnInit(): void {
+    this.store
+      .select(selectActiveTab)
+      .subscribe(
+        (next) => (this.selectedScenarioId = next?.scenarioId ?? null)
+      );
+  }
 
   createScenario() {
     const dialogRef = this.dialog.open(ConfirmWithNameComponent, {
@@ -82,6 +89,8 @@ export class ScenariosComponent {
   }
 
   selectScenario(id: number) {
-    // this.scenarioService.selectScenario(id)
+    this.store.dispatch(
+      selectScenarioInitiated({ payload: { scenarioId: id } })
+    );
   }
 }

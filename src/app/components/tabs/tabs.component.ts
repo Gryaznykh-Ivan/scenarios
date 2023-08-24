@@ -3,7 +3,13 @@ import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { ITab } from 'src/app/models/tab.model';
-import { createTabInitiated, rearrangeTabInitiated, removeTabInitiated, selectTabInitiated, selectTabs } from 'src/app/state/tabs';
+import {
+  createTabInitiated,
+  rearrangeTabInitiated,
+  removeTabInitiated,
+  selectTabInitiated,
+  selectTabs,
+} from 'src/app/state/tabs';
 
 @Component({
   selector: 'app-tabs',
@@ -18,21 +24,25 @@ export class TabsComponent {
   ngOnInit() {}
 
   createTab() {
-    this.store.dispatch(createTabInitiated())
+    this.store.dispatch(createTabInitiated());
   }
 
   removeTab(index: number) {
-    this.store.dispatch(removeTabInitiated({ index }))
+    this.store.dispatch(removeTabInitiated({ payload: { index } }));
   }
 
   rearrangeTabs(event: CdkDragDrop<ITab[]>) {
-    this.store.dispatch(rearrangeTabInitiated({
-      currentIndex: event.currentIndex,
-      previousIndex: event.previousIndex,
-    }))
+    this.store.dispatch(
+      rearrangeTabInitiated({
+        payload: {
+          currentIndex: event.currentIndex,
+          previousIndex: event.previousIndex,
+        },
+      })
+    );
   }
 
   selectTab(index: number) {
-    this.store.dispatch(selectTabInitiated({ index }))
+    this.store.dispatch(selectTabInitiated({ payload: { index } }));
   }
 }

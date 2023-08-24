@@ -14,7 +14,7 @@ import {
 } from 'rxjs';
 import { IFile, IFolder } from 'src/app/models/filesystem.model';
 import { getFilesystemInitiated, selectError, selectFolder, selectLoading } from 'src/app/state/filesystem';
-import { selectTabInitiated, updateActiveTabInitiated } from 'src/app/state/tabs';
+import { selectFileInitiated, selectTabInitiated, updateActiveTabInitiated } from 'src/app/state/tabs';
 
 @Component({
   selector: 'app-filesystem-form',
@@ -39,6 +39,7 @@ export class FilesystemFormComponent implements OnInit {
   }
 
   selectFile = (data: IFile) => {
-    this.store.dispatch(updateActiveTabInitiated({ fileId: data.id, title: data.name }))
+    this.store.dispatch(updateActiveTabInitiated({ payload: { title: data.name } }))
+    this.store.dispatch(selectFileInitiated({ payload: { fileId: data.id } }))
   };
 }

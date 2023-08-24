@@ -1,6 +1,19 @@
 import { Action, createReducer, on, createFeature } from '@ngrx/store';
 import * as TabsActions from './tabs.actions';
 import { ITab } from 'src/app/models/tab.model';
+import {
+  createTabInitiated,
+  rearrangeTabInitiated,
+  removeTabInitiated,
+  selectTabInitiated,
+  toggleTabToolbarInitiated,
+  updateActiveTabInitiated,
+} from './tabs.actions';
+import {
+  selectFileInitiated,
+  selectNodeInitiated,
+  selectScenarioInitiated,
+} from '../tabs';
 
 export interface TabsState {
   tabs: ITab[];
@@ -28,7 +41,7 @@ export const TabsFeature = createFeature({
   name: 'tabs',
   reducer: createReducer(
     initialState,
-    on(TabsActions.createTabInitiated, (state) => {
+    on(createTabInitiated, (state) => {
       if (state.tabs.length >= 20) return state;
 
       return {
@@ -51,8 +64,8 @@ export const TabsFeature = createFeature({
         ],
       };
     }),
-    on(TabsActions.removeTabInitiated, (state, action) => {
-      const filteredTabs = state.tabs.filter((_, i) => action.index !== i);
+    on(removeTabInitiated, (state, { payload }) => {
+      const filteredTabs = state.tabs.filter((_, i) => payload.index !== i);
       if (filteredTabs.length < 1) return state;
 
       const isActiveTabExist = filteredTabs.some((c) => c.isActive === true);
@@ -68,48 +81,59 @@ export const TabsFeature = createFeature({
         tabs: filteredTabs,
       };
     }),
-    on(TabsActions.selectTabInitiated, (state, action) => {
+    on(selectTabInitiated, (state, { payload }) => {
       return {
         ...state,
         tabs: state.tabs.map((c, i) => ({
           ...c,
-          isActive: action.index === i ? true : false,
+          isActive: payload.index === i ? true : false,
         })),
       };
     }),
-    on(TabsActions.updateActiveTabInitiated, (state, { type, ...rest }) => ({
+    on(updateActiveTabInitiated, (state, { type, payload }) => ({
       ...state,
       tabs: state.tabs.map((c) =>
-        c.isActive === true ? { ...c, ...rest, isActive: true } : c
+        c.isActive === true ? { ...c, ...payload, isActive: true } : c
       ),
     })),
-    on(TabsActions.rearrangeTabInitiated, (state, action) => {
+    on(
+      selectFileInitiated,
+      selectScenarioInitiated,
+      selectNodeInitiated,
+      (state, { payload }) => ({
+        ...state,
+        tabs: state.tabs.map((c) =>
+          c.isActive === true ? { ...c, ...payload } : c
+        ),
+      })
+    ),
+    on(rearrangeTabInitiated, (state, { payload }) => {
       const tabs = [...state.tabs];
 
-      const [removed] = tabs.splice(action.previousIndex, 1);
-      tabs.splice(action.currentIndex, 0, removed);
+      const [removed] = tabs.splice(payload.previousIndex, 1);
+      tabs.splice(payload.currentIndex, 0, removed);
 
       return {
         ...state,
         tabs: tabs,
       };
     }),
-    on(TabsActions.toggleTabToolbarInitiated, (state, action) => ({
+    on(toggleTabToolbarInitiated, (state, { payload }) => ({
       ...state,
       tabs: state.tabs.map((c) =>
         c.isActive === true
           ? {
               ...c,
-              toolbar: ['actions', 'scenarios'].includes(action.toolbar)
+              toolbar: ['actions', 'scenarios'].includes(payload.toolbar)
                 ? {
                     ...c.toolbar,
                     actions: false,
                     scenarios: false,
-                    [action.toolbar]: !c.toolbar[action.toolbar],
+                    [payload.toolbar]: !c.toolbar[payload.toolbar],
                   }
                 : {
                     ...c.toolbar,
-                    [action.toolbar]: !c.toolbar[action.toolbar],
+                    [payload.toolbar]: !c.toolbar[payload.toolbar],
                   },
             }
           : c

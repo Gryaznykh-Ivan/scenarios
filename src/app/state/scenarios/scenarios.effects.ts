@@ -6,6 +6,9 @@ import { ScenarioService } from 'src/app/services/scenario.service';
 import { Store } from '@ngrx/store';
 import {
   selectFileId,
+  selectFileInitiated,
+  selectScenarioId,
+  selectScenarioInitiated,
   selectTabInitiated,
   updateActiveTabInitiated,
 } from '../tabs';
@@ -22,7 +25,7 @@ import {
 } from './scenarios.actions';
 
 @Injectable()
-export class ScenarioEffects {
+export class ScenariosEffects {
   constructor(
     private store: Store,
     private actions$: Actions<any>,
@@ -33,13 +36,29 @@ export class ScenarioEffects {
     this.actions$.pipe(
       ofType(
         selectTabInitiated,
-        updateActiveTabInitiated,
+        selectFileInitiated,
         createScenarioSuccess,
         removeScenarioSuccess
       ),
       concatLatestFrom(() => this.store.select(selectFileId)),
       filter(([_, fileId]) => fileId !== null),
-      switchMap(([_, fileId]) => of(getScenariosInitiated({ payload: { id: fileId! } })))
+      switchMap(([_, fileId]) =>
+        of(getScenariosInitiated({ payload: { id: fileId! } }))
+      )
+    )
+  );
+
+  autoSelectFirstScenario$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(getScenariosSuccess),
+      concatLatestFrom(() => this.store.select(selectScenarioId)),
+      filter(
+        ([{ payload }, scenarioId]) =>
+          payload.length !== 0 && scenarioId === null
+      ),
+      switchMap(([{ payload }, _]) =>
+        of(selectScenarioInitiated({ payload: { scenarioId: payload[0].id } }))
+      )
     )
   );
 
