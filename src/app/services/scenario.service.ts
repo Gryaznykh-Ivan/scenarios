@@ -5,6 +5,8 @@ import {
 import {
   ICreateScenarioRequest,
   ICreateScenarioResponse,
+  IGetScenarioRequest,
+  IGetScenarioResponse,
   IGetScenariosRequest,
   IGetScenariosResponse,
   IRemoveScenarioRequest,
@@ -34,6 +36,17 @@ export class ScenarioService {
         }),
       }
     );
+  }
+
+  getScenario(data: IGetScenarioRequest): Observable<IGetScenarioResponse> {
+    return this.http
+      .get<IGetScenarioResponse>(`${environment.BASE_URL}/scenario`, {
+        params: new HttpParams({
+          fromObject: {
+            id: data.id,
+          },
+        }),
+      })
   }
 
   createScenario(

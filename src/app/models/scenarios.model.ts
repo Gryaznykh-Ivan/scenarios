@@ -49,6 +49,11 @@ export interface IGetScenariosRequest {
   id: number;
 }
 
+export type IGetScenarioResponse = IScenario;
+export interface IGetScenarioRequest {
+  id: number;
+}
+
 export type ICreateScenarioResponse = number;
 export interface ICreateScenarioRequest {
   id: number;

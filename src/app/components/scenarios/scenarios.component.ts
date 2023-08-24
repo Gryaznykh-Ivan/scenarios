@@ -19,7 +19,7 @@ import {
   selectError,
   selectLoading,
   selectScenarios,
-} from 'src/app/state/scenarios';
+} from 'src/app/state/scenario';
 import { selectActiveTab, selectScenarioInitiated } from 'src/app/state/tabs';
 
 @Component({

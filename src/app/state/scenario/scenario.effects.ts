@@ -16,13 +16,16 @@ import {
   createScenarioFailed,
   createScenarioInitiated,
   createScenarioSuccess,
+  getScenarioFailed,
+  getScenarioInitiated,
+  getScenarioSuccess,
   getScenariosFailed,
   getScenariosInitiated,
   getScenariosSuccess,
   removeScenarioFailed,
   removeScenarioInitiated,
   removeScenarioSuccess,
-} from './scenarios.actions';
+} from './scenario.actions';
 
 @Injectable()
 export class ScenariosEffects {
@@ -48,6 +51,15 @@ export class ScenariosEffects {
     )
   );
 
+  refetchScenario$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(selectScenarioInitiated),
+      switchMap(({ payload }) =>
+        of(getScenarioInitiated({ payload: { id: payload.scenarioId } }))
+      )
+    )
+  );
+
   autoSelectFirstScenario$ = createEffect(() =>
     this.actions$.pipe(
       ofType(getScenariosSuccess),
@@ -62,6 +74,7 @@ export class ScenariosEffects {
     )
   );
 
+
   getScenarios$ = createEffect(() =>
     this.actions$.pipe(
       ofType(getScenariosInitiated),
@@ -71,6 +84,24 @@ export class ScenariosEffects {
           catchError((error: HttpErrorResponse) =>
             of(
               getScenariosFailed({
+                payload: { error: error.message },
+              })
+            )
+          )
+        )
+      )
+    )
+  );
+
+  getScenario$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(getScenarioInitiated),
+      switchMap(({ payload }) =>
+        this.scenarioService.getScenario({ id: payload.id! }).pipe(
+          map((next) => getScenarioSuccess({ payload: next })),
+          catchError((error: HttpErrorResponse) =>
+            of(
+              getScenarioFailed({
                 payload: { error: error.message },
               })
             )

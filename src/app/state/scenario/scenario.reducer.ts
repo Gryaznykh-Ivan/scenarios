@@ -1,17 +1,19 @@
 import { Action, createFeature, createReducer, on } from '@ngrx/store';
-import { IScenarioPreview } from 'src/app/models/scenarios.model';
-import { getScenariosFailed, getScenariosInitiated, getScenariosSuccess } from './scenarios.actions';
+import { IScenario, IScenarioPreview } from 'src/app/models/scenarios.model';
+import { getScenarioFailed, getScenarioInitiated, getScenarioSuccess, getScenariosFailed, getScenariosInitiated, getScenariosSuccess } from './scenario.actions';
 
 
 export interface ScenarioState {
   loading: boolean;
   scenarios: IScenarioPreview[];
+  scenario: IScenario | null;
   error: string;
 }
 
 export const initialState: ScenarioState = {
   loading: false,
   scenarios: [],
+  scenario: null,
   error: '',
 };
 
@@ -30,6 +32,20 @@ export const ScenariosFeature = createFeature({
       scenarios: payload,
     })),
     on(getScenariosFailed, (state, { payload }) => ({
+      ...state,
+      loading: false,
+      error: payload.error,
+    })),
+    on(getScenarioInitiated, (state) => ({
+      ...state,
+      loading: true,
+    })),
+    on(getScenarioSuccess, (state, { payload }) => ({
+      ...state,
+      loading: false,
+      scenario: payload,
+    })),
+    on(getScenarioFailed, (state, { payload }) => ({
       ...state,
       loading: false,
       error: payload.error,

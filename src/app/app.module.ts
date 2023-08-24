@@ -42,8 +42,8 @@ import { EffectsModule } from '@ngrx/effects';
 import { FilesystemEffects } from './state/filesystem';
 import { TabsFeature } from './state/tabs/tabs.reducer';
 import { FilesystemFeature } from './state/filesystem/filesystem.reducer';
-import { ScenariosFeature } from './state/scenarios/scenarios.reducer';
-import { ScenariosEffects } from './state/scenarios';
+import { ScenariosFeature } from './state/scenario/scenario.reducer';
+import { ScenariosEffects } from './state/scenario';
 import { TabsEffects } from './state/tabs';
 import { ActionsEffects, ActionsFeature } from './state/actions';
 
@@ -65,7 +65,7 @@ import { ActionsEffects, ActionsFeature } from './state/actions';
     ConfirmWithNameComponent,
     SearchFilterPipe,
     ConfirmWithCheckboxComponent,
-    ActionsComponent,
+    ActionsComponent
   ],
   imports: [
     BrowserModule,
